@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TextHandler.TextObjectModel.Characters.Punctuation
 {
-    public class PunctuationSymbol : ISentenceable
+    public class PunctuationSymbol : ISentenceElement
     {
         private readonly IList<PunctuationMark> _punctuationSymbol;
 

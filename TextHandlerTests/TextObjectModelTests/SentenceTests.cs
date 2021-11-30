@@ -16,7 +16,7 @@ namespace TextHandlerTests.TextObjectModelTests
         [TestMethod]
         public void TestSentenceClassCreating()
         {
-            var sentenceElements = new List<ISentenceable>
+            var sentenceElements = new List<ISentenceElement>
             {
                 new Word(new Letter[]
                 {

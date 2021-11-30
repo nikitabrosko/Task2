@@ -5,7 +5,7 @@ using TextHandler.TextObjectModel.Characters.Letters;
 
 namespace TextHandler.TextObjectModel
 {
-    public class Word : ISentenceable
+    public class Word : ISentenceElement
     {
         private readonly IList<Letter> _word;
 

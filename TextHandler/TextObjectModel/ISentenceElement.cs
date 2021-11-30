@@ -1,6 +1,6 @@
 ﻿namespace TextHandler.TextObjectModel
 {
-    public interface ISentenceable
+    public interface ISentenceElement
     {
     }
 }

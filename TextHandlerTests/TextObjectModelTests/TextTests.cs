@@ -16,7 +16,7 @@ namespace TextHandlerTests.TextObjectModelTests
         [TestMethod]
         public void TestTextClassCreating()
         {
-            var sentenceFirst = new Sentence(new ISentenceable[]
+            var sentenceFirst = new Sentence(new ISentenceElement[]
             {
                 new Word(new Letter[]
                 {
@@ -37,7 +37,7 @@ namespace TextHandlerTests.TextObjectModelTests
                 }),
                 new PunctuationMark('!')
             });
-            var sentenceSecond = new Sentence(new ISentenceable[]
+            var sentenceSecond = new Sentence(new ISentenceElement[]
             {
                 new Word(new Letter[]
                 {
