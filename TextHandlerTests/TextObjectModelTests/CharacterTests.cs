@@ -40,8 +40,8 @@ namespace TextHandlerTests.TextObjectModelTests
             var punctuationMarks = new List<PunctuationMark>
             {
                 new PunctuationMark('.'), 
-                new PunctuationMark(','), 
-                new PunctuationMark('?')
+                new PunctuationMark('.'), 
+                new PunctuationMark('.')
             };
 
             var punctuationSymbolObject = new PunctuationSymbol(punctuationMarks);
