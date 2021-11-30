@@ -20,7 +20,7 @@ namespace TextHandlerTests.TextObjectModelTests
             {
                 new Word(new Letter[]
                 {
-                    new Letter('s'), 
+                    new Letter('S'), 
                     new Letter('e'), 
                     new Letter('n'), 
                     new Letter('t'), 
