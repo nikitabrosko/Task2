@@ -13,6 +13,15 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
         public PunctuationSymbol(IEnumerable<PunctuationMark> punctuationMarks)
         {
             _punctuationSymbol = punctuationMarks.ToList();
+
+            try
+            {
+                Verifier.Verify(this);
+            }
+            finally
+            {
+                _punctuationSymbol = default;
+            }
         }
     }
 }

@@ -6,13 +6,22 @@ namespace TextHandler.TextObjectModel
 {
     public class Sentence
     {
-        private readonly IList<ISentenceElement> _sentence = new List<ISentenceElement>();
+        private readonly IList<ISentenceElement> _sentence;
 
         public IEnumerable<ISentenceElement> Value => new ReadOnlyCollection<ISentenceElement>(_sentence);
 
         public Sentence(IEnumerable<ISentenceElement> sentenceElements)
         {
             _sentence = sentenceElements.ToList();
+
+            try
+            {
+                Verifier.Verify(this);
+            }
+            finally
+            {
+                _sentence = default;
+            }
         }
     }
 }

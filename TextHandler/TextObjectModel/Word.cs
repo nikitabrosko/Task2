@@ -14,6 +14,15 @@ namespace TextHandler.TextObjectModel
         public Word(IEnumerable<Letter> letters)
         {
             _word = letters.ToList();
+
+            try
+            {
+                Verifier.Verify(this);
+            }
+            finally
+            {
+                _word = default;
+            }
         }
     }
 }

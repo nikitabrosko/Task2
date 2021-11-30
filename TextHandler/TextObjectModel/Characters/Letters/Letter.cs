@@ -1,10 +1,21 @@
-﻿namespace TextHandler.TextObjectModel.Characters.Letters
+﻿using System;
+
+namespace TextHandler.TextObjectModel.Characters.Letters
 {
     public class Letter : Character
     {
         public Letter(char letter)
         {
             Value = letter;
+
+            try
+            {
+                Verifier.Verify(this);
+            }
+            finally
+            {
+                Value = default;
+            }
         }
     }
 }
