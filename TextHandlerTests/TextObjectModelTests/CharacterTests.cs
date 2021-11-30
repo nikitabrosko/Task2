@@ -16,7 +16,7 @@ namespace TextHandlerTests.TextObjectModelTests
         [DataRow('a')]
         [DataRow('b')]
         [DataRow('c')]
-        public void TestLetterClassCreating(char letter)
+        public void TestLetterClassCreatingWithValidParameters(char letter)
         {
             var letterObject = new Letter(letter);
 
@@ -25,9 +25,19 @@ namespace TextHandlerTests.TextObjectModelTests
 
         [TestMethod]
         [DataRow('.')]
+        [DataRow(' ')]
+        [DataRow('1')]
+        public void TestLetterClassCreatingWithInvalidParameters(char letter)
+        {
+            Assert.ThrowsException<ArgumentException>(() => new Letter(letter),
+                nameof(letter));
+        }
+
+        [TestMethod]
+        [DataRow('.')]
         [DataRow(',')]
         [DataRow('?')]
-        public void TestPunctuationMarkClassCreating(char punctuationMark)
+        public void TestPunctuationMarkClassCreatingWithValidParameters(char punctuationMark)
         {
             var punctuationMarkObject = new PunctuationMark(punctuationMark);
 
@@ -35,7 +45,17 @@ namespace TextHandlerTests.TextObjectModelTests
         }
 
         [TestMethod]
-        public void TestPunctuationSymbolClassCreating()
+        [DataRow('a')]
+        [DataRow('1')]
+        [DataRow(' ')]
+        public void TestPunctuationMarkClassCreatingWithInvalidParameters(char punctuationMark)
+        {
+            Assert.ThrowsException<ArgumentException>(() => new PunctuationMark(punctuationMark),
+                nameof(punctuationMark));
+        }
+
+        [TestMethod]
+        public void TestPunctuationSymbolClassCreatingWithValidParameters()
         {
             var punctuationMarks = new List<PunctuationMark>
             {
@@ -47,6 +67,20 @@ namespace TextHandlerTests.TextObjectModelTests
             var punctuationSymbolObject = new PunctuationSymbol(punctuationMarks);
 
             Assert.IsTrue(punctuationMarks.SequenceEqual(punctuationSymbolObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestPunctuationSymbolClassCreatingWithInvalidParameters()
+        {
+            var punctuationMarks = new List<PunctuationMark>
+            {
+                new PunctuationMark(','),
+                new PunctuationMark('.'),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new PunctuationSymbol(punctuationMarks),
+                nameof(PunctuationSymbol));
         }
     }
 }
