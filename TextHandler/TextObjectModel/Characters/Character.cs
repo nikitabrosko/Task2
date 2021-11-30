@@ -1,4 +1,4 @@
-﻿namespace TextHandler.TextWorks.Characters
+﻿namespace TextHandler.TextObjectModel.Characters
 {
     public abstract class Character
     {

@@ -1,4 +1,4 @@
-﻿namespace TextHandler.TextWorks.Characters.Punctuation
+﻿namespace TextHandler.TextObjectModel.Characters.Punctuation
 {
     public class PunctuationMark : Character, ISentenceable
     {

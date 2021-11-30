@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TextHandler.TextWorks.Characters.Letters;
+using TextHandler.TextObjectModel.Characters.Letters;
 
-namespace TextHandler.TextWorks
+namespace TextHandler.TextObjectModel
 {
     public class Word : ISentenceable
     {

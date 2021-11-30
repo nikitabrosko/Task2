@@ -1,4 +1,4 @@
-﻿namespace TextHandler.TextWorks.Characters.Letters
+﻿namespace TextHandler.TextObjectModel.Characters.Letters
 {
     public class Letter : Character
     {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace TextHandler.TextWorks.Characters.Punctuation
+namespace TextHandler.TextObjectModel.Characters.Punctuation
 {
     public class PunctuationSymbol : ISentenceable
     {
