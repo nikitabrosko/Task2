@@ -18,9 +18,11 @@ namespace TextHandler.TextObjectModel
             {
                 Verifier.Verify(this);
             }
-            finally
+            catch
             {
                 _sentence = default;
+
+                throw;
             }
         }
     }

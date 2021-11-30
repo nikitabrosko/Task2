@@ -10,9 +10,11 @@
             {
                 Verifier.Verify(this);
             }
-            finally
+            catch
             {
                 Value = default;
+
+                throw;
             }
         }
     }

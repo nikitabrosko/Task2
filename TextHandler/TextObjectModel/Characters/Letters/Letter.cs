@@ -12,9 +12,11 @@ namespace TextHandler.TextObjectModel.Characters.Letters
             {
                 Verifier.Verify(this);
             }
-            finally
+            catch
             {
                 Value = default;
+
+                throw;
             }
         }
     }

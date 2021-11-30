@@ -16,7 +16,7 @@ namespace TextHandler.TextObjectModel
 
             if (char.IsDigit(letter.Value))
             {
-                throw new ArgumentException("letter can not be a digit!", nameof(letter));
+                throw new ArgumentException("letter can not be a digit", nameof(letter));
             }
 
             if (char.IsWhiteSpace(letter.Value))
@@ -60,23 +60,50 @@ namespace TextHandler.TextObjectModel
                 throw new ArgumentNullException(nameof(punctuationSymbol));
             }
 
-            var punctuationSymbolFirst = new PunctuationSymbol(new PunctuationMark[]
-            {
-                new PunctuationMark('?'), 
-                new PunctuationMark('!')
-            });
-
-            var punctuationSymbolSecond = new PunctuationSymbol(new PunctuationMark[]
-            {
-                new PunctuationMark('.'),
-                new PunctuationMark('.'),
-                new PunctuationMark('.')
-            });
-
-            if (punctuationSymbol.Value.SequenceEqual(punctuationSymbolFirst.Value) 
-                || punctuationSymbol.Value.SequenceEqual(punctuationSymbolSecond.Value))
+            if (!CheckForPunctuationSymbol())
             {
                 throw new ArgumentException("punctuation symbol is wrong", nameof(punctuationSymbol));
+            }
+
+            bool CheckForPunctuationSymbol()
+            {
+                var punctuationMarksFirst = new PunctuationMark[]
+                {
+                    new PunctuationMark('?'),
+                    new PunctuationMark('!')
+                };
+
+                var punctuationMarksSecond = new PunctuationMark[]
+                {
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.')
+                };
+
+                var punctuationSymbolList = punctuationSymbol.Value.ToList();
+
+                if (punctuationSymbolList.Count == 2)
+                {
+                    for (int i = 0; i < punctuationSymbolList.Count; i++)
+                    {
+                        if (!punctuationSymbolList[i].Value.Equals(punctuationMarksSecond[i].Value))
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else if (punctuationSymbolList.Count == 3)
+                {
+                    for (int i = 0; i < punctuationSymbolList.Count; i++)
+                    {
+                        if (!punctuationSymbolList[i].Value.Equals(punctuationMarksSecond[i].Value))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
             }
         }
 
@@ -117,9 +144,12 @@ namespace TextHandler.TextObjectModel
 
             var lastSentenceElement = sentence.Value.ToList().Last();
 
-            if (lastSentenceElement is not PunctuationMark or PunctuationSymbol)
+            if (lastSentenceElement is not PunctuationMark)
             {
-                throw new ArgumentException("last element of sentence should be a punctuation mark or symbol");
+                if (lastSentenceElement is not PunctuationSymbol)
+                {
+                    throw new ArgumentException("last element of sentence should be a punctuation mark or symbol");
+                }
             }
         }
     }

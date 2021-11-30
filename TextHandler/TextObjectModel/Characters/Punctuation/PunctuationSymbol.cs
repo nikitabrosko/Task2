@@ -18,9 +18,11 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
             {
                 Verifier.Verify(this);
             }
-            finally
+            catch
             {
                 _punctuationSymbol = default;
+
+                throw;
             }
         }
     }
