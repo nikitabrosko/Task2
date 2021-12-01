@@ -60,6 +60,11 @@ namespace TextHandler.TextObjectModel
                 throw new ArgumentNullException(nameof(punctuationSymbol));
             }
 
+            if (punctuationSymbol.Value is null)
+            {
+                throw new ArgumentNullException(nameof(punctuationSymbol.Value));
+            }
+
             if (!CheckForPunctuationSymbol())
             {
                 throw new ArgumentException("punctuation symbol is wrong", nameof(punctuationSymbol));
@@ -114,7 +119,17 @@ namespace TextHandler.TextObjectModel
                 throw new ArgumentNullException(nameof(word));
             }
 
+            if (word.Value is null)
+            {
+                throw new ArgumentNullException(nameof(word.Value));
+            }
+
             var wordList = word.Value.ToList();
+
+            if (wordList.Count == 0)
+            {
+                throw new ArgumentException("letters count can not be 0", nameof(word));
+            }
 
             for (int index = 1; index < wordList.Count; index++)
             {
@@ -130,6 +145,11 @@ namespace TextHandler.TextObjectModel
             if (sentence is null)
             {
                 throw new ArgumentNullException(nameof(sentence));
+            }
+
+            if (sentence.Value is null)
+            {
+                throw new ArgumentNullException(nameof(sentence.Value));
             }
 
             var firstSentenceElement = sentence.Value.ToList().First();
