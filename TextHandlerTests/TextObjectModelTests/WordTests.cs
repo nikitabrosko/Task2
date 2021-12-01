@@ -13,7 +13,7 @@ namespace TextHandlerTests.TextObjectModelTests
     public class WordTests
     {
         [TestMethod]
-        public void TestWordClassCreating()
+        public void TestWordClassCreatingWithValidParameters()
         {
             var letters = new List<Letter>
             {
@@ -26,6 +26,26 @@ namespace TextHandlerTests.TextObjectModelTests
             var wordObject = new Word(letters);
 
             Assert.IsTrue(letters.SequenceEqual(wordObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestWordClassCreatingWithInvalidParametersLetterInUppercase()
+        {
+            var letters = new List<Letter>
+            {
+                new Letter('w'),
+                new Letter('o'),
+                new Letter('R'),
+                new Letter('D')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Word(letters), nameof(Word));
+        }
+
+        [TestMethod]
+        public void TestWordClassCreatingWithInvalidParametersLettersIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new Word(null), nameof(Word.Value));
         }
     }
 }

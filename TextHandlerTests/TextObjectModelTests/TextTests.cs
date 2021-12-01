@@ -84,9 +84,8 @@ namespace TextHandlerTests.TextObjectModelTests
             textObject.Append(sentenceFirst);
             textObject.Append(sentenceSecond);
 
-            bool expressionFirst = sentenceFirst.Equals(textObject.Value.First());
-            bool expressionSecond = sentenceSecond.Equals(textObject.Value.Last());
-            Assert.IsTrue(expressionFirst && expressionSecond);
+            Assert.IsTrue(sentenceFirst.Equals(textObject.Value.First()) 
+                          && sentenceSecond.Equals(textObject.Value.Last()));
         }
     }
 }

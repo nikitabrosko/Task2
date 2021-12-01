@@ -14,7 +14,7 @@ namespace TextHandlerTests.TextObjectModelTests
     public class SentenceTests
     {
         [TestMethod]
-        public void TestSentenceClassCreating()
+        public void TestSentenceClassCreatingWithValidParameters()
         {
             var sentenceElements = new List<ISentenceElement>
             {
@@ -57,6 +57,82 @@ namespace TextHandlerTests.TextObjectModelTests
             var sentenceObject = new Sentence(sentenceElements);
 
             Assert.IsTrue(sentenceElements.SequenceEqual(sentenceObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new Sentence(null),
+                nameof(Sentence.Value));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsPunctuationFirst()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationMark('!'),
+                new Word(new Letter[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
+                nameof(Sentence));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsNoPunctuationLast()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new Word(new Letter[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                })
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
+                nameof(Sentence));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsFirstLetterInLowercase()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new Word(new Letter[]
+                {
+                    new Letter('s'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
+                nameof(Sentence));
         }
     }
 }

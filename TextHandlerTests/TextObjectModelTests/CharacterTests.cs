@@ -70,7 +70,7 @@ namespace TextHandlerTests.TextObjectModelTests
         }
 
         [TestMethod]
-        public void TestPunctuationSymbolClassCreatingWithInvalidParameters()
+        public void TestPunctuationSymbolClassCreatingWithInvalidParametersPunctuationMarksIsWrong()
         {
             var punctuationMarks = new List<PunctuationMark>
             {
@@ -81,6 +81,13 @@ namespace TextHandlerTests.TextObjectModelTests
 
             Assert.ThrowsException<ArgumentException>(() => new PunctuationSymbol(punctuationMarks),
                 nameof(PunctuationSymbol));
+        }
+
+        [TestMethod]
+        public void TestPunctuationSymbolClassCreatingWithInvalidParametersPunctuationMarksIsNull()
+        {
+            Assert.ThrowsException<ArgumentNullException>(() => new PunctuationSymbol(null),
+                nameof(PunctuationSymbol.Value));
         }
     }
 }
