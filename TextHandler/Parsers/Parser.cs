@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Characters.Letters;
 using TextHandler.TextObjectModel.Characters.Punctuation;
@@ -12,7 +8,7 @@ namespace TextHandler.Parsers
 {
     public class Parser
     {
-        private delegate void Action(char character);
+        private delegate void CharacterCheck(char character);
 
         private StreamReader _streamReader;
         private readonly IList<PunctuationMark> _punctuationSymbolBuffer = new List<PunctuationMark>();
@@ -58,6 +54,9 @@ namespace TextHandler.Parsers
 
         private void CharacterIsDot(char character)
         {
+            _sentenceBuffer.Add(new Word(_wordBuffer));
+            _wordBuffer.Clear();
+
             char nextCharacter = (char) _streamReader.Peek();
 
             if (nextCharacter == '.')
@@ -81,6 +80,9 @@ namespace TextHandler.Parsers
 
         private void CharacterIsQuestionMark(char character)
         {
+            _sentenceBuffer.Add(new Word(_wordBuffer));
+            _wordBuffer.Clear();
+
             char nextCharacter = (char) _streamReader.Peek();
 
             if (nextCharacter == '!')
@@ -110,34 +112,34 @@ namespace TextHandler.Parsers
         {
              char currentCharacter = (char)_streamReader.Read();
 
-             Action action;
+             CharacterCheck characterCheck;
 
              if (char.IsLetter(currentCharacter))
              {
-                 action = CharacterIsLetter;
+                 characterCheck = CharacterIsLetter;
              }
              else if (char.IsWhiteSpace(currentCharacter))
              {
-                 action = CharacterIsWhiteSpace;
+                 characterCheck = CharacterIsWhiteSpace;
              }
              else if (currentCharacter == '.')
              {
-                 action = CharacterIsDot;
+                 characterCheck = CharacterIsDot;
              }
              else if (currentCharacter == '?')
              {
-                 action = CharacterIsQuestionMark;
+                 characterCheck = CharacterIsQuestionMark;
              }
              else if (char.IsPunctuation(currentCharacter))
              {
-                 action = CharacterIsOtherPunctuation;
+                 characterCheck = CharacterIsOtherPunctuation;
              }
              else
              {
-                 action = EndOfFile;
+                 characterCheck = EndOfFile;
              }
 
-             action.Invoke(currentCharacter);
+             characterCheck.Invoke(currentCharacter);
         }
     }
 }
