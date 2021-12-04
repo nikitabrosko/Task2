@@ -91,7 +91,7 @@ namespace TextHandlerTests.TextObjectModelTests
         }
 
         [TestMethod]
-        public void TestSentenceClassCreatingWithInvalidParametersElementsNoPunctuationLast()
+        public void TestSentenceClassCreatingWithInvalidParametersElementsLastIsNotPunctuation()
         {
             var sentenceElements = new List<ISentenceElement>
             {
