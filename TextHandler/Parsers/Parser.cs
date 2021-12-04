@@ -18,11 +18,18 @@ namespace TextHandler.Parsers
 
         public Text ReadFile(string path)
         {
-            _streamReader = File.OpenText(path);
+            try
+            {
+                _streamReader = File.OpenText(path);
 
-            ReadNext();
+                ReadNext();
 
-            return _text;
+                return _text;
+            }
+            finally
+            {
+                _streamReader.Dispose();
+            }
         }
 
         private void CharacterIsLetter(char character)
