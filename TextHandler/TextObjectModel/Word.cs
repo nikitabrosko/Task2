@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TextHandler.TextObjectModel.Characters.Letters;
@@ -17,13 +18,41 @@ namespace TextHandler.TextObjectModel
 
             try
             {
-                Verifier.Verify(this);
+                Verify(this);
             }
             catch
             {
                 _word = default;
 
                 throw;
+            }
+        }
+
+        public static void Verify(Word word)
+        {
+            if (word is null)
+            {
+                throw new ArgumentNullException(nameof(word));
+            }
+
+            if (word.Value is null)
+            {
+                throw new ArgumentNullException(nameof(word));
+            }
+
+            var wordList = word.Value.ToList();
+
+            if (wordList.Count == 0)
+            {
+                throw new ArgumentException("letters count can not be 0", nameof(word));
+            }
+
+            for (int index = 1; index < wordList.Count; index++)
+            {
+                if (char.IsUpper(wordList[index].Value))
+                {
+                    throw new ArgumentException($"letter in index {index} in uppercase", nameof(word));
+                }
             }
         }
     }
