@@ -69,7 +69,7 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
                     {
                         for (int i = 0; i < punctuationSymbolList.Count; i++)
                         {
-                            if (!punctuationSymbolList[i].Value.Equals(punctuationMarksSecond[i].Value))
+                            if (!punctuationSymbolList[i].Value.Equals(punctuationMarksFirst[i].Value))
                             {
                                 return false;
                             }
