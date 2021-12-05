@@ -37,8 +37,6 @@ namespace TextHandler.Parsers
         private void CharacterIsLetter(char character)
         {
             _wordBuffer.Add(new Letter(character));
-
-            ReadNext();
         }
 
         private void CharacterIsWhiteSpace(char character)
@@ -47,8 +45,6 @@ namespace TextHandler.Parsers
             {
                 AddWordToSentenceBufferAndClearWordBuffer();
             }
-
-            ReadNext();
         }
 
         private void CharacterIsPunctuation(char character)
@@ -69,8 +65,6 @@ namespace TextHandler.Parsers
                     _sentenceBuffer.Add(new PunctuationMark(character));
                     break;
             }
-
-            ReadNext();
         }
 
         private void CharacterIsDot(char character)
@@ -147,6 +141,8 @@ namespace TextHandler.Parsers
             }
 
             characterCheck?.Invoke(currentCharacter);
+
+            ReadNext();
         }
 
         private void AddWordToSentenceBufferAndClearWordBuffer()
