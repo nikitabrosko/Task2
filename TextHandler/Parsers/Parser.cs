@@ -11,10 +11,9 @@ namespace TextHandler.Parsers
         private delegate void CharacterCheck(char character);
 
         private StreamReader _streamReader;
-        private readonly IList<PunctuationMark> _punctuationSymbolBuffer = new List<PunctuationMark>();
         private readonly IList<Letter> _wordBuffer = new List<Letter>();
         private readonly IList<ISentenceElement> _sentenceBuffer = new List<ISentenceElement>();
-        private readonly Text _text = new Text();
+        private Text _text = new Text();
 
         public Text ReadFile(string path)
         {
@@ -29,6 +28,9 @@ namespace TextHandler.Parsers
             finally
             {
                 _streamReader.Dispose();
+                _wordBuffer.Clear();
+                _sentenceBuffer.Clear();
+                _text = new Text();
             }
         }
 
@@ -43,36 +45,49 @@ namespace TextHandler.Parsers
         {
             if (_wordBuffer.Count != 0)
             {
-                _sentenceBuffer.Add(new Word(_wordBuffer));
-                _wordBuffer.Clear();
+                AddWordToSentenceBufferAndClearWordBuffer();
             }
 
             ReadNext();
         }
 
-        private void CharacterIsOtherPunctuation(char character)
+        private void CharacterIsPunctuation(char character)
         {
-            _sentenceBuffer.Add(new Word(_wordBuffer));
-            _sentenceBuffer.Add(new PunctuationMark(character));
-            _wordBuffer.Clear();
+            switch (character)
+            {
+                case '.':
+                    CharacterIsDot(character);
+                    break;
+                case '?':
+                    CharacterIsQuestionMark(character);
+                    break;
+                case '-':
+                    _wordBuffer.Add(new Letter(character));
+                    break;
+                default:
+                    AddWordToSentenceBufferAndClearWordBuffer();
+                    _sentenceBuffer.Add(new PunctuationMark(character));
+                    break;
+            }
 
             ReadNext();
         }
 
         private void CharacterIsDot(char character)
         {
-            _sentenceBuffer.Add(new Word(_wordBuffer));
-            _wordBuffer.Clear();
+            AddWordToSentenceBufferAndClearWordBuffer();
 
             char nextCharacter = (char) _streamReader.Peek();
 
             if (nextCharacter == '.')
             {
-                _punctuationSymbolBuffer.Add(new PunctuationMark(character));
-                _punctuationSymbolBuffer.Add(new PunctuationMark((char) _streamReader.Read()));
-                _punctuationSymbolBuffer.Add(new PunctuationMark((char) _streamReader.Read()));
-                _sentenceBuffer.Add(new PunctuationSymbol(_punctuationSymbolBuffer));
-                _punctuationSymbolBuffer.Clear();
+                _sentenceBuffer.Add(new PunctuationSymbol(
+                    new PunctuationMark[]
+                    {
+                        new PunctuationMark(character),
+                        new PunctuationMark((char)_streamReader.Read()),
+                        new PunctuationMark((char)_streamReader.Read())
+                    }));
             }
             else
             {
@@ -81,23 +96,22 @@ namespace TextHandler.Parsers
 
             _text.Append(new Sentence(_sentenceBuffer));
             _sentenceBuffer.Clear();
-
-            ReadNext();
         }
 
         private void CharacterIsQuestionMark(char character)
         {
-            _sentenceBuffer.Add(new Word(_wordBuffer));
-            _wordBuffer.Clear();
+            AddWordToSentenceBufferAndClearWordBuffer();
 
             char nextCharacter = (char) _streamReader.Peek();
 
             if (nextCharacter == '!')
             {
-                _punctuationSymbolBuffer.Add(new PunctuationMark(character));
-                _punctuationSymbolBuffer.Add(new PunctuationMark((char) _streamReader.Read()));
-                _sentenceBuffer.Add(new PunctuationSymbol(_punctuationSymbolBuffer));
-                _punctuationSymbolBuffer.Clear();
+                _sentenceBuffer.Add(new PunctuationSymbol(
+                    new PunctuationMark[]
+                    {
+                        new PunctuationMark(character), 
+                        new PunctuationMark((char)_streamReader.Read())
+                    }));
             }
             else
             {
@@ -106,47 +120,39 @@ namespace TextHandler.Parsers
             
             _text.Append(new Sentence(_sentenceBuffer));
             _sentenceBuffer.Clear();
-
-            ReadNext();
-        }
-
-        private void EndOfFile(char character)
-        {
-            _streamReader.Dispose();
         }
 
         private void ReadNext()
         {
-             char currentCharacter = (char)_streamReader.Read();
+            if (_streamReader.Peek() == -1)
+            {
+                return;
+            }
 
-             CharacterCheck characterCheck;
+            char currentCharacter = (char)_streamReader.Read();
 
-             if (char.IsLetter(currentCharacter))
-             {
-                 characterCheck = CharacterIsLetter;
-             }
-             else if (char.IsWhiteSpace(currentCharacter))
-             {
-                 characterCheck = CharacterIsWhiteSpace;
-             }
-             else if (currentCharacter == '.')
-             {
-                 characterCheck = CharacterIsDot;
-             }
-             else if (currentCharacter == '?')
-             {
-                 characterCheck = CharacterIsQuestionMark;
-             }
-             else if (char.IsPunctuation(currentCharacter))
-             {
-                 characterCheck = CharacterIsOtherPunctuation;
-             }
-             else
-             {
-                 characterCheck = EndOfFile;
-             }
+            CharacterCheck characterCheck = null;
 
-             characterCheck.Invoke(currentCharacter);
+            if (char.IsLetter(currentCharacter))
+            {
+                characterCheck = CharacterIsLetter;
+            }
+            else if (char.IsWhiteSpace(currentCharacter))
+            {
+                characterCheck = CharacterIsWhiteSpace;
+            }
+            else if (char.IsPunctuation(currentCharacter))
+            {
+                characterCheck = CharacterIsPunctuation;
+            }
+
+            characterCheck?.Invoke(currentCharacter);
+        }
+
+        private void AddWordToSentenceBufferAndClearWordBuffer()
+        {
+            _sentenceBuffer.Add(new Word(_wordBuffer));
+            _wordBuffer.Clear();
         }
     }
 }
