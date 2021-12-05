@@ -46,14 +46,6 @@ namespace TextHandler.TextObjectModel
             {
                 throw new ArgumentException("letters count can not be 0", nameof(word));
             }
-
-            for (int index = 1; index < wordList.Count; index++)
-            {
-                if (char.IsUpper(wordList[index].Value))
-                {
-                    throw new ArgumentException($"letter in index {index} in uppercase", nameof(word));
-                }
-            }
         }
     }
 }
