@@ -11,7 +11,7 @@ namespace TextHandler.Parsers
         private delegate void CharacterCheck(char character);
 
         private StreamReader _streamReader;
-        private readonly IList<Letter> _wordBuffer = new List<Letter>();
+        private readonly IList<IWordElement> _wordBuffer = new List<IWordElement>();
         private readonly IList<ISentenceElement> _sentenceBuffer = new List<ISentenceElement>();
         private Text _text = new Text();
 
@@ -58,7 +58,8 @@ namespace TextHandler.Parsers
                     CharacterIsQuestionMark(character);
                     break;
                 case '-':
-                    _wordBuffer.Add(new Letter(character));
+                case '\'':
+                    _wordBuffer.Add(new PunctuationMark(character));
                     break;
                 default:
                     AddWordToSentenceBufferAndClearWordBuffer();
