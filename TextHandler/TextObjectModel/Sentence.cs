@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using TextHandler.TextObjectModel.Characters.Letters;
 using TextHandler.TextObjectModel.Characters.Punctuation;
 
 namespace TextHandler.TextObjectModel
@@ -46,8 +47,13 @@ namespace TextHandler.TextObjectModel
             {
                 case PunctuationMark or PunctuationSymbol:
                     throw new ArgumentException("first element of sentence can not be a punctuation mark or symbol");
-                case Word word when char.IsLower(word.Value.ToList()[0].Value):
-                    throw new ArgumentException("first element of sentence can not be in lowercase");
+                case Word word:
+                    switch (word.Value.First())
+                    {
+                        case Letter when char.IsLower(((Letter)word.Value.First()).Value):
+                            throw new ArgumentException("first element of sentence can not be in lowercase");
+                    }
+                    break;
             }
 
             var lastSentenceElement = sentence.Value.ToList().Last();
