@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Characters.Letters;
 using TextHandler.TextObjectModel.Characters.Punctuation;
@@ -25,7 +22,7 @@ namespace TextHandler.Tools
                 .Aggregate((currentSentence, nextSentence) => currentSentence.Union(nextSentence));
         }
 
-        public static Text RemoveWordsWithGivenLengthThatStartsInConsonantLetter(Text text, int length)
+        public static Text RemoveWordsWithGivenLengthThatStartsWithConsonantLetter(Text text, int length)
         {
             var consonants = "bcdfghjklmnpqrstvwxz".ToList();
 
@@ -39,12 +36,18 @@ namespace TextHandler.Tools
 
             foreach (var sentenceElements in sentences)
             {
+                CreateNewText(sentenceElements);
+            }
+
+            return newText;
+
+            void CreateNewText(IEnumerable<ISentenceElement> sentenceElements)
+            {
                 var sentenceElementsList = sentenceElements.ToList();
-                Sentence sentence;
 
                 try
                 {
-                    sentence = new Sentence(sentenceElementsList);
+                    var sentence = new Sentence(sentenceElementsList);
                     newText.Append(sentence);
                 }
                 catch (ArgumentException)
@@ -56,7 +59,7 @@ namespace TextHandler.Tools
                             break;
                         case Word word:
                         {
-                            char firstCharacter = ((Letter) word.Value.First()).Value;
+                            char firstCharacter = ((Letter)word.Value.First()).Value;
 
                             if (char.IsLower(firstCharacter))
                             {
@@ -70,12 +73,9 @@ namespace TextHandler.Tools
                         }
                     }
 
-                    sentence = new Sentence(sentenceElementsList);
-                    newText.Append(sentence);
+                    CreateNewText(sentenceElementsList);
                 }
             }
-
-            return newText;
         }
     }
 }
