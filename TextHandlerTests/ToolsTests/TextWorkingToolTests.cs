@@ -22,7 +22,7 @@ namespace TextHandlerTests.ToolsTests
 
             Text text = parser.ReadFile(path);
 
-            var result = TextWorkingTool.RemoveWordsWithGivenLengthThatStartsInConsonantLetter(text, 5);
+            var result = TextWorkingTool.RemoveWordsWithGivenLengthThatStartsWithConsonantLetter(text, 5);
 
             string str = "1";
         }
