@@ -18,7 +18,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('S'), 
                     new Letter('e'), 
@@ -29,21 +29,21 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('c'), 
                     new Letter('e')
                 }),
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('h'),
                     new Letter('a'),
                     new Letter('v'),
                     new Letter('e')
                 }),
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('f'),
                     new Letter('o'),
                     new Letter('u'),
                     new Letter('r')
                 }),
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('w'),
                     new Letter('o'),
@@ -72,7 +72,7 @@ namespace TextHandlerTests.TextObjectModelTests
             var sentenceElements = new List<ISentenceElement>
             {
                 new PunctuationMark('!'),
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('S'),
                     new Letter('e'),
@@ -95,7 +95,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('S'),
                     new Letter('e'),
@@ -117,7 +117,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('s'),
                     new Letter('e'),

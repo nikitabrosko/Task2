@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Characters.Letters;
+using TextHandler.TextObjectModel.Characters.Punctuation;
 
 namespace TextHandlerTests.TextObjectModelTests
 {
@@ -11,9 +12,9 @@ namespace TextHandlerTests.TextObjectModelTests
     public class WordTests
     {
         [TestMethod]
-        public void TestWordClassCreatingWithValidParameters()
+        public void TestWordClassCreatingWithValidParametersDefaultWord()
         {
-            var letters = new List<Letter>
+            var wordElements = new List<IWordElement>
             {
                 new Letter('w'),
                 new Letter('o'),
@@ -21,9 +22,45 @@ namespace TextHandlerTests.TextObjectModelTests
                 new Letter('d')
             };
 
-            var wordObject = new Word(letters);
+            var wordObject = new Word(wordElements);
 
-            Assert.IsTrue(letters.SequenceEqual(wordObject.Value.ToList()));
+            Assert.IsTrue(wordElements.SequenceEqual(wordObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestWordClassCreatingWithValidParametersDoubleWord()
+        {
+            var wordElements = new List<IWordElement>
+            {
+                new Letter('w'),
+                new Letter('o'),
+                new Letter('r'),
+                new Letter('d'),
+                new PunctuationMark('-'),
+                new Letter('w'),
+                new Letter('o'),
+                new Letter('r'),
+                new Letter('d')
+            };
+
+            var wordObject = new Word(wordElements);
+
+            Assert.IsTrue(wordElements.SequenceEqual(wordObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestWordClassCreatingWithInvalidParametersPunctuationMarkInStart()
+        {
+            var wordElements = new List<IWordElement>
+            {
+                new PunctuationMark('-'),
+                new Letter('w'),
+                new Letter('o'),
+                new Letter('r'),
+                new Letter('d')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Word(wordElements), nameof(Word));
         }
 
         [TestMethod]
