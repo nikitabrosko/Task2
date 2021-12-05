@@ -2,7 +2,7 @@
 
 namespace TextHandler.TextObjectModel.Characters.Letters
 {
-    public class Letter : Character
+    public class Letter : Character, IWordElement
     {
         public Letter(char letter)
         {
