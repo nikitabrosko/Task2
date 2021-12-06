@@ -19,7 +19,7 @@ namespace TextHandler.Tools
             return text.Value.OrderByDescending(s => s.Value.Count(e => e is Word));
         }
 
-        public static IEnumerable<Word> FindWordsWithGivenLengthInQuestionSentences(Text text, int wordLength)
+        public static IEnumerable<Word> FindWordsInQuestionSentences(Text text, int wordLength)
         {
             CheckArgumentsForExceptions(text, wordLength);
 
@@ -29,7 +29,7 @@ namespace TextHandler.Tools
                 .Aggregate((currentSentence, nextSentence) => currentSentence.Union(nextSentence));
         }
 
-        public static Text RemoveWordsWithGivenLengthThatStartsWithConsonantLetter(Text text, int wordLength)
+        public static Text RemoveWordsThatStartsWithConsonantLetter(Text text, int wordLength)
         {
             CheckArgumentsForExceptions(text, wordLength);
 
