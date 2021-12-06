@@ -56,8 +56,11 @@ namespace TextHandler.Tools
 
                 try
                 {
-                    var sentence = new Sentence(sentenceElementsList);
-                    newText.Append(sentence);
+                    if (sentenceElementsList.Count != 0)
+                    {
+                        var sentence = new Sentence(sentenceElementsList);
+                        newText.Append(sentence);
+                    }
                 }
                 catch (ArgumentException)
                 {
