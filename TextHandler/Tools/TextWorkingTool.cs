@@ -106,25 +106,24 @@ namespace TextHandler.Tools
                 throw new ArgumentOutOfRangeException(nameof(sentenceIndex));
             }
 
-            var previousSentence = mainTextTemp[sentenceIndex];
+            var previousSentence = mainTextTemp[sentenceIndex].Value.ToList();
 
-            var words = previousSentence.Value.Where(e => e is Word)
+            var words = previousSentence.Where(e => e is Word)
                 .Where(w => ((Word) w).Value.Count() == wordLength);
-
-            var newSentence = previousSentence.Value.ToList();
             
-            var newSentenceCount = newSentence.Count;
+            var newSentenceCount = previousSentence.Count;
+
+            var newSentence = new List<ISentenceElement>();
+            newSentence.AddRange(previousSentence);
 
             for (var i = 0; i < newSentenceCount; i++)
             {
-                if (words.Contains(newSentence[i]))
+                if (words.Contains(previousSentence[i]))
                 {
-                    newSentence.RemoveAt(i);
+                    var indexOfRemovingElement = newSentence.FindIndex(0, x => x == previousSentence[i]);
+                    newSentence.Remove(previousSentence[i]);
 
-                    foreach (var substringElement in substringText.Reverse())
-                    {
-                        newSentence.Insert(i, substringElement);
-                    }
+                    newSentence.InsertRange(indexOfRemovingElement, substringText);
                 }
             }
 
