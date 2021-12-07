@@ -68,5 +68,11 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             Assert.ThrowsException<ArgumentNullException>(() => new Word(null), nameof(Word.Value));
         }
+
+        [TestMethod]
+        public void TestWordClassCreatingWithInvalidParametersLettersCountIsZero()
+        {
+            Assert.ThrowsException<ArgumentException>(() => new Word(Array.Empty<Letter>()), nameof(Word.Value));
+        }
     }
 }
