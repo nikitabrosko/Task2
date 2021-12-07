@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,12 +88,8 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var parser = new Parser();
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
-
-            File.WriteAllText(path, "Lorem ipsum.");
             var substring =
-                parser.ReadFile(path).Value.First().Value;
-            File.Delete(path);
+                parser.ReadFile(@"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt").Value.First().Value;
 
             var expectedResult = new Text();
             expectedResult.Append(new Sentence(new ISentenceElement[]
@@ -163,6 +158,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                 }
 
                 return true;
+
             }
         }
 
@@ -173,13 +169,8 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var sentenceIndex = 1;
 
             var parser = new Parser();
-
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
-
-            File.WriteAllText(path, "Lorem ipsum.");
             var substring =
-                parser.ReadFile(path).Value.First().Value;
-            File.Delete(path);
+                parser.ReadFile(@"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt").Value.First().Value;
 
             var wordLength = 5;
 
@@ -239,13 +230,8 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             textObject.Append(sentence);
 
             var parser = new Parser();
-
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
-
-            File.WriteAllText(path, "Lorem ipsum.");
             var substring =
-                parser.ReadFile(path).Value.First().Value;
-            File.Delete(path);
+                parser.ReadFile(@"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt").Value.First().Value;
 
             var wordLength = 5;
 
@@ -366,13 +352,8 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var sentenceIndex = 1;
 
             var parser = new Parser();
-
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
-
-            File.WriteAllText(path, "Lorem ipsum.");
             var substring =
-                parser.ReadFile(path).Value.First().Value;
-            File.Delete(path);
+                parser.ReadFile(@"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt").Value.First().Value;
 
             Assert.ThrowsException<ArgumentException>(() =>
                 TextWorkingTool.ReplaceWordsWithSubstring(textObject, sentenceIndex, substring, wordLength), nameof(wordLength));
