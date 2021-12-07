@@ -16,14 +16,11 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
         {
             var wordFirst = new Word(new IWordElement[]
             {
-                new Letter('S'),
-                new Letter('e'),
-                new Letter('n'),
-                new Letter('t'),
-                new Letter('e'),
-                new Letter('n'),
-                new Letter('c'),
-                new Letter('e')
+                new Letter('W'),
+                new Letter('o'),
+                new Letter('r'),
+                new Letter('d'),
+                new Letter('s')
             });
             var wordSecond = new Word(new IWordElement[]
             {
@@ -82,8 +79,13 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var expectedTextObject = new Text();
             expectedTextObject.Append(new Sentence(new ISentenceElement[]
             {
-                wordFirst,
-                wordSecond,
+                new Word(new IWordElement[]
+                {
+                    new Letter('H'),
+                    new Letter('a'),
+                    new Letter('v'),
+                    new Letter('e')
+                }),
                 wordThird,
                 punctuationSymbol
             }));
@@ -96,9 +98,25 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                 var firstTextList = firstText.Value.First().Value.ToList();
                 var secondTextList = secondText.Value.First().Value.ToList();
 
-                if (firstTextList.Count == secondTextList.Count)
+                if (firstTextList.Count != secondTextList.Count)
                 {
-                    return !firstTextList.Where((e, i) => e != secondTextList[i]).Any();
+                    return false;
+                }
+
+                for (int i = 0; i < firstTextList.Count; i++)
+                {
+                    if (firstTextList[i] is Word firstWord && secondTextList[i] is Word secondWord)
+                    {
+                        var wordsElementsListFirst = firstWord.Value.ToList();
+                        var wordsElementsListSecond = secondWord.Value.ToList();
+
+                        if (wordsElementsListFirst.Count != wordsElementsListSecond.Count)
+                        {
+                            return false;
+                        }
+
+                        return !wordsElementsListFirst.Where((t, j) => t.Value != wordsElementsListSecond[j].Value).Any();
+                    }
                 }
 
                 return false;
