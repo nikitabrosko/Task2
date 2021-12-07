@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextHandler.TextObjectModel
 {
-    public interface IWordElement : ISentenceElement
+    public interface IWordElement
     {
         char Value { get; }
     }
