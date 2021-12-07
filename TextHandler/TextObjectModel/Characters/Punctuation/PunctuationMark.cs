@@ -2,7 +2,7 @@
 
 namespace TextHandler.TextObjectModel.Characters.Punctuation
 {
-    public class PunctuationMark : IWordElement
+    public class PunctuationMark : IWordElement, ISentenceElement
     {
         public char Value { get; }
 
