@@ -2,8 +2,10 @@
 
 namespace TextHandler.TextObjectModel.Characters.Punctuation
 {
-    public class PunctuationMark : Character, ISentenceElement, IWordElement
+    public class PunctuationMark : IWordElement
     {
+        public char Value { get; }
+
         public PunctuationMark(char punctuationMark)
         {
             Value = punctuationMark;
@@ -22,11 +24,6 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
 
         public static void Verify(PunctuationMark punctuationMark)
         {
-            if (punctuationMark is null)
-            {
-                throw new ArgumentNullException(nameof(punctuationMark));
-            }
-
             if (char.IsDigit(punctuationMark.Value))
             {
                 throw new ArgumentException("punctuation mark can not be a digit!", nameof(punctuationMark));

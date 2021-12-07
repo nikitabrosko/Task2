@@ -2,8 +2,10 @@
 
 namespace TextHandler.TextObjectModel.Characters.Letters
 {
-    public class Letter : Character, IWordElement
+    public class Letter : IWordElement
     {
+        public char Value { get; }
+
         public Letter(char letter)
         {
             Value = letter;
@@ -22,11 +24,6 @@ namespace TextHandler.TextObjectModel.Characters.Letters
 
         public static void Verify(Letter letter)
         {
-            if (letter is null)
-            {
-                throw new ArgumentNullException(nameof(letter));
-            }
-
             if (char.IsDigit(letter.Value))
             {
                 throw new ArgumentException("letter can not be a digit", nameof(letter));
