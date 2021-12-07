@@ -31,16 +31,6 @@ namespace TextHandler.TextObjectModel
 
         public static void Verify(Word word)
         {
-            if (word is null)
-            {
-                throw new ArgumentNullException(nameof(word));
-            }
-
-            if (word.Value is null)
-            {
-                throw new ArgumentNullException(nameof(word));
-            }
-
             var wordList = word.Value.ToList();
 
             if (wordList.Count == 0)

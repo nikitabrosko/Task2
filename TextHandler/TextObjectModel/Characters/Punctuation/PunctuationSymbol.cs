@@ -29,16 +29,6 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
 
         public static void Verify(PunctuationSymbol punctuationSymbol)
         {
-            if (punctuationSymbol is null)
-            {
-                throw new ArgumentNullException(nameof(punctuationSymbol));
-            }
-
-            if (punctuationSymbol.Value is null)
-            {
-                throw new ArgumentNullException(nameof(punctuationSymbol));
-            }
-
             if (!CheckForPunctuationSymbol())
             {
                 throw new ArgumentException("punctuation symbol is wrong", nameof(punctuationSymbol));
@@ -63,32 +53,26 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
 
                 switch (punctuationSymbolList.Count)
                 {
-                    case 1:
-                        return false;
                     case 2:
                     {
-                        for (int i = 0; i < punctuationSymbolList.Count; i++)
+                        if (punctuationSymbolList.Where((t, i) => !t.Value.Equals(punctuationMarksFirst[i].Value)).Any())
                         {
-                            if (!punctuationSymbolList[i].Value.Equals(punctuationMarksFirst[i].Value))
-                            {
-                                return false;
-                            }
+                            return false;
                         }
 
                         break;
                     }
                     case 3:
                     {
-                        for (int i = 0; i < punctuationSymbolList.Count; i++)
+                        if (punctuationSymbolList.Where((t, i) => !t.Value.Equals(punctuationMarksSecond[i].Value)).Any())
                         {
-                            if (!punctuationSymbolList[i].Value.Equals(punctuationMarksSecond[i].Value))
-                            {
-                                return false;
-                            }
+                            return false;
                         }
 
                         break;
                     }
+                    default:
+                        throw new ArgumentException("punctuation symbol length can not be more than 3 and less than 2", nameof(punctuationSymbol));
                 }
 
                 return true;

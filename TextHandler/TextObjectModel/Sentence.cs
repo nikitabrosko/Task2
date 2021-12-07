@@ -31,16 +31,6 @@ namespace TextHandler.TextObjectModel
 
         public static void Verify(Sentence sentence)
         {
-            if (sentence is null)
-            {
-                throw new ArgumentNullException(nameof(sentence));
-            }
-
-            if (sentence.Value is null)
-            {
-                throw new ArgumentNullException(nameof(sentence));
-            }
-
             var firstSentenceElement = sentence.Value.ToList().First();
 
             switch (firstSentenceElement)
