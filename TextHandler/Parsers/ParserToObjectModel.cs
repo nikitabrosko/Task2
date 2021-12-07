@@ -61,6 +61,10 @@ namespace TextHandler.Parsers
                 case '\'':
                     _wordBuffer.Add(new PunctuationMark(character));
                     break;
+                case '\n':
+                case '\r':
+                    CharacterIsNewLine(character);
+                    break;
                 default:
                     AddWordToSentenceBufferAndClearWordBuffer();
                     _sentenceBuffer.Add(new PunctuationMark(character));
@@ -89,8 +93,7 @@ namespace TextHandler.Parsers
                 _sentenceBuffer.Add(new PunctuationMark(character));
             }
 
-            _text.Append(new Sentence(_sentenceBuffer));
-            _sentenceBuffer.Clear();
+            AppendToTextAndClearSentenceBuffer();
         }
 
         private void CharacterIsQuestionMark(char character)
@@ -112,9 +115,27 @@ namespace TextHandler.Parsers
             {
                 _sentenceBuffer.Add(new PunctuationMark(character));
             }
-            
-            _text.Append(new Sentence(_sentenceBuffer));
-            _sentenceBuffer.Clear();
+
+            AppendToTextAndClearSentenceBuffer();
+        }
+
+        private void CharacterIsNewLine(char character)
+        {
+            char nextCharacter = (char)_streamReader.Peek();
+
+            if (nextCharacter == '\n')
+            {
+                _sentenceBuffer.Add(new PunctuationSymbol(
+                    new PunctuationMark[]
+                    {
+                        new PunctuationMark(character),
+                        new PunctuationMark((char)_streamReader.Read())
+                    }));
+            }
+            else
+            {
+                _sentenceBuffer.Add(new PunctuationMark(character));
+            }
         }
 
         private void ReadNext()
@@ -132,7 +153,11 @@ namespace TextHandler.Parsers
             {
                 characterCheck = CharacterIsLetter;
             }
-            else if (char.IsWhiteSpace(currentCharacter))
+            else if (currentCharacter.Equals('\n'))
+            {
+                characterCheck = CharacterIsPunctuation;
+            }
+            else if (currentCharacter == ' ')
             {
                 characterCheck = CharacterIsWhiteSpace;
             }
@@ -150,6 +175,12 @@ namespace TextHandler.Parsers
         {
             _sentenceBuffer.Add(new Word(_wordBuffer));
             _wordBuffer.Clear();
+        }
+
+        private void AppendToTextAndClearSentenceBuffer()
+        {
+            _text.Append(new Sentence(_sentenceBuffer));
+            _sentenceBuffer.Clear();
         }
     }
 }
