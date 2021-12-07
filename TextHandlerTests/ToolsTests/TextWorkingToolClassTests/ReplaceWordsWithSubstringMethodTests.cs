@@ -87,7 +87,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             textObject.Append(sentenceFirst);
             textObject.Append(sentenceSecond);
 
-            var parser = new Parser();
+            var parser = new ParserToObjectModel();
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
@@ -172,7 +172,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             Text textObject = null;
             var sentenceIndex = 1;
 
-            var parser = new Parser();
+            var parser = new ParserToObjectModel();
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
@@ -237,7 +237,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var textObject = new Text();
             textObject.Append(sentence);
 
-            var parser = new Parser();
+            var parser = new ParserToObjectModel();
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
@@ -363,7 +363,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var sentenceIndex = 1;
 
-            var parser = new Parser();
+            var parser = new ParserToObjectModel();
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");

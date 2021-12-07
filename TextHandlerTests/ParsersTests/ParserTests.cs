@@ -15,7 +15,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsDotMethodWithValidParameters()
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            Parser parser = new Parser();
+            ParserToObjectModel parser = new ParserToObjectModel();
             File.WriteAllText(path, "New file...");
             var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
             {
@@ -38,7 +38,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsPunctuationInWordMethodWithValidParameters(char character)
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            Parser parser = new Parser();
+            ParserToObjectModel parser = new ParserToObjectModel();
             File.WriteAllText(path, $"Ain{character}t.");
             var expectedWord = new Word(new IWordElement[]
             {
@@ -60,7 +60,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterComma()
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            Parser parser = new Parser();
+            ParserToObjectModel parser = new ParserToObjectModel();
             File.WriteAllText(path, "New, file.");
             var expectedPunctuationMark = new PunctuationMark(',');
 
@@ -75,7 +75,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMark()
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            Parser parser = new Parser();
+            ParserToObjectModel parser = new ParserToObjectModel();
             File.WriteAllText(path, "New file?");
             var expectedPunctuationMark = new PunctuationMark('?');
 
@@ -90,7 +90,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMarkAndExclamationMark()
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            Parser parser = new Parser();
+            ParserToObjectModel parser = new ParserToObjectModel();
             File.WriteAllText(path, "New file?!");
             var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
             {
