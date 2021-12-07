@@ -29,7 +29,7 @@ namespace TextHandler.TextObjectModel.Characters.Punctuation
                 throw new ArgumentException("punctuation mark can not be a digit!", nameof(punctuationMark));
             }
 
-            if (char.IsWhiteSpace(punctuationMark.Value))
+            if (punctuationMark.Value is ' ')
             {
                 throw new ArgumentException("punctuation mark can not be a whitespace", nameof(punctuationMark));
             }
