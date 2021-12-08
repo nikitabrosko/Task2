@@ -123,7 +123,7 @@ namespace TextHandler.Parsers
         {
             char nextCharacter = (char)_streamReader.Peek();
 
-            if (nextCharacter is '\n' or '\r')
+            if (nextCharacter is '\n')
             {
                 _sentenceBuffer.Add(new PunctuationSymbol(
                     new PunctuationMark[]
@@ -153,7 +153,7 @@ namespace TextHandler.Parsers
             {
                 characterCheck = CharacterIsLetter;
             }
-            else if (currentCharacter.Equals('\n'))
+            else if (currentCharacter is '\n' or '\r')
             {
                 characterCheck = CharacterIsPunctuation;
             }
