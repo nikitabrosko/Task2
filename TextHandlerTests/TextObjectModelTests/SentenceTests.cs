@@ -123,6 +123,34 @@ namespace TextHandlerTests.TextObjectModelTests
         }
 
         [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsPunctuationSymbolFirstLengthIsIncorrect()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationSymbol(new PunctuationMark[]
+                {
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.')
+                }),
+                new Word(new IWordElement[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements));
+        }
+
+        [TestMethod]
         public void TestSentenceClassCreatingWithInvalidParametersElementsPunctuationSymbolFirst()
         {
             var sentenceElements = new List<ISentenceElement>
