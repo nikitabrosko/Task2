@@ -105,6 +105,44 @@ namespace TextHandlerTests.ParsersTests
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol, actualPunctuationSymbol));
         }
 
+        [TestMethod]
+        [DataRow('\n')]
+        [DataRow('\r')]
+        public void TestCharacterIsPunctuationMethodWithValidParametersParameterNewLinePunctuationMark(char character)
+        {
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            ParserToObjectModel parser = new ParserToObjectModel();
+            File.WriteAllText(path, $"{character}New file.");
+            var expectedPunctuationMark = new PunctuationMark(character);
+
+            var textObject = parser.ReadFile(path);
+            File.Delete(path);
+            var actualPunctuationMark = textObject.Value.First().Value.ToList()[0] as PunctuationMark;
+
+            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
+        }
+
+        [TestMethod]
+        public void TestCharacterIsPunctuationMethodWithValidParametersParameterNewLinePunctuationSymbol()
+        {
+            char characterFirst = '\r';
+            char characterSecond = '\n';
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            ParserToObjectModel parser = new ParserToObjectModel();
+            File.WriteAllText(path, $"{characterFirst}{characterSecond}New file.");
+            var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
+            {
+                new PunctuationMark(characterFirst),
+                new PunctuationMark(characterSecond)
+            });
+
+            var textObject = parser.ReadFile(path);
+            File.Delete(path);
+            var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[0] as PunctuationSymbol;
+
+            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol, actualPunctuationSymbol));
+        }
+
         private static bool CheckTwoISentenceElementsForEqual(ISentenceElement sentenceElementFirst, ISentenceElement sentenceElementSecond)
         {
             switch (sentenceElementFirst)
