@@ -67,6 +67,89 @@ namespace TextHandlerTests.TextObjectModelTests
         }
 
         [TestMethod]
+        [DataRow('\n')]
+        [DataRow('\r')]
+        public void TestSentenceClassCreatingWithValidParametersElementsPunctuationMarkFirst(char character)
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationMark(character),
+                new Word(new IWordElement[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            var sentenceObject = new Sentence(sentenceElements);
+
+            Assert.IsTrue(sentenceElements.SequenceEqual(sentenceObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithValidParametersElementsPunctuationSymbolFirst()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationSymbol(new PunctuationMark[]
+                {
+                    new PunctuationMark('\r'),
+                    new PunctuationMark('\n')
+                }),
+                new Word(new IWordElement[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            var sentenceObject = new Sentence(sentenceElements);
+
+            Assert.IsTrue(sentenceElements.SequenceEqual(sentenceObject.Value.ToList()));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsPunctuationSymbolFirst()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationSymbol(new PunctuationMark[]
+                {
+                    new PunctuationMark('?'),
+                    new PunctuationMark('!')
+                }),
+                new Word(new IWordElement[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements));
+        }
+
+        [TestMethod]
         public void TestSentenceClassCreatingWithInvalidParametersElementsPunctuationFirst()
         {
             var sentenceElements = new List<ISentenceElement>
