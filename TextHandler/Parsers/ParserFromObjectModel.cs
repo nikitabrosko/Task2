@@ -26,6 +26,11 @@ namespace TextHandler.Parsers
 
         private void WriteNext(Text text)
         {
+            if (text is null)
+            {
+                throw new ArgumentNullException(nameof(text));
+            }
+
             foreach (var sentence in text.Value)
             {
                 SentenceHandler(sentence);
