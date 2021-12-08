@@ -57,6 +57,11 @@ namespace TextHandler.Parsers
                 case '?':
                     CharacterIsQuestionMark(character);
                     break;
+                case '!':
+                    AddWordToSentenceBufferAndClearWordBuffer();
+                    _sentenceBuffer.Add(new PunctuationMark(character));
+                    AppendToTextAndClearSentenceBuffer();
+                    break;
                 case '-':
                 case '\'':
                     _wordBuffer.Add(new PunctuationMark(character));
