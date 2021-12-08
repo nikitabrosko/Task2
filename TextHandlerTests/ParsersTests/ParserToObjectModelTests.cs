@@ -9,7 +9,7 @@ using TextHandler.TextObjectModel.Characters.Punctuation;
 namespace TextHandlerTests.ParsersTests
 {
     [TestClass]
-    public class ParserTests
+    public class ParserToObjectModelTests
     {
         [TestMethod]
         public void TestCharacterIsDotMethodWithValidParameters()
