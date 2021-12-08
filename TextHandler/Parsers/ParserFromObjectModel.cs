@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Characters.Punctuation;
 
@@ -83,7 +80,10 @@ namespace TextHandler.Parsers
         {
             _streamWriter.Write(punctuationMark.Value);
 
-            SetWhiteSpace();
+            if (punctuationMark.Value is not '\n' or '\r')
+            {
+                SetWhiteSpace();
+            }
         }
 
         private void PunctuationSymbolHandler(PunctuationSymbol punctuationSymbol)
@@ -91,6 +91,26 @@ namespace TextHandler.Parsers
             foreach (var punctuationMark in punctuationSymbol.Value)
             {
                 _streamWriter.Write(punctuationMark.Value);
+            }
+
+            var punctuationSymbolNewLine = new PunctuationSymbol(new PunctuationMark[]
+            {
+                new PunctuationMark('\r'),
+                new PunctuationMark('\n')
+            });
+
+            if (punctuationSymbol.Value.Count() == punctuationSymbolNewLine.Value.Count())
+            {
+                for (int i = 0; i < punctuationSymbol.Value.Count(); i++)
+                {
+                    if (punctuationSymbol.Value.ToList()[i].Value != punctuationSymbolNewLine.Value.ToList()[i].Value)
+                    {
+                        SetWhiteSpace();
+                        return;
+                    }
+                }
+
+                return;
             }
 
             SetWhiteSpace();
