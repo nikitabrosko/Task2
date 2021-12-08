@@ -52,9 +52,17 @@ namespace TextHandler.TextObjectModel
                         new PunctuationMark('\r'), new PunctuationMark('\n')
                     });
 
-                    if (!punctuationSymbol.Equals(punctuationSymbolFirst))
+                    if (punctuationSymbol.Value.Count() != punctuationSymbolFirst.Value.Count())
                     {
                         throw new ArgumentException("first element of sentence can not be a punctuation symbol");
+                    }
+
+                    for (int i = 0; i < punctuationSymbol.Value.Count(); i++)
+                    {
+                        if (punctuationSymbol.Value.ToList()[i].Value != punctuationSymbolFirst.Value.ToList()[i].Value)
+                        {
+                            throw new ArgumentException("first element of sentence can not be a punctuation symbol");
+                        }
                     }
 
                     break;
