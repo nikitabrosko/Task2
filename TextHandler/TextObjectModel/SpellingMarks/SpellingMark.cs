@@ -29,7 +29,7 @@ namespace TextHandler.TextObjectModel.SpellingMarks
 
         private void Verify()
         {
-            if (Value is not '\'' or '-')
+            if (Value is not ('\'' or '-'))
             {
                 throw new ArgumentException("spelling mark can be a \' or -");
             }

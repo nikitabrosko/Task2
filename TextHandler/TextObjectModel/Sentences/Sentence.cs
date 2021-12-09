@@ -103,7 +103,7 @@ namespace TextHandler.TextObjectModel.Sentences
 
             var lastSentenceElement = Value.ToList().Last();
 
-            if (lastSentenceElement is not IPunctuationMark or IPunctuationSymbol)
+            if (lastSentenceElement is not (IPunctuationMark or IPunctuationSymbol))
             {
                 throw new ArgumentException("last element of sentence should be a punctuation mark or symbol");
             }
