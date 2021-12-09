@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TextHandler.TextObjectModel
+﻿namespace TextHandler.TextObjectModel
 {
-    public interface IWordElement
+    public interface IWordElement : ITextModelElement<char>
     {
-        char Value { get; }
     }
 }
