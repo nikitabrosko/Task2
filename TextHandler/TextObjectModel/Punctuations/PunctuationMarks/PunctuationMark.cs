@@ -22,6 +22,11 @@ namespace TextHandler.TextObjectModel.Punctuations.PunctuationMarks
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            return Value.ToString();
+        }
+
         private void Verify()
         {
             if (char.IsDigit(Value))

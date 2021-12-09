@@ -3,5 +3,7 @@
     public interface ITextModelElement<T>
     {
         T Value { get; }
+
+        string GetStringRepresentation();
     }
 }

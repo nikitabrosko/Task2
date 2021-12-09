@@ -28,6 +28,11 @@ namespace TextHandler.TextObjectModel.Punctuations.PunctuationSymbols
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            return Value.Aggregate(string.Empty, (current, punctuationMark) => current + punctuationMark.GetStringRepresentation());
+        }
+
         private void Verify()
         {
             if (!CheckForPunctuationSymbol())

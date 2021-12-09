@@ -22,6 +22,11 @@ namespace TextHandler.TextObjectModel.Letters
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            return Value.ToString();
+        }
+
         private void Verify()
         {
             if (char.IsDigit(Value))

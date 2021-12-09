@@ -31,6 +31,29 @@ namespace TextHandler.TextObjectModel.Sentences
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            string stringRepresentation = string.Empty;
+
+            foreach (var sentenceElement in Value)
+            {
+                switch (sentenceElement)
+                {
+                    case IWord word:
+                        stringRepresentation += word.GetStringRepresentation();
+                        break;
+                    case IPunctuationMark punctuationMark:
+                        stringRepresentation += punctuationMark.GetStringRepresentation();
+                        break;
+                    case IPunctuationSymbol punctuationSymbol:
+                        stringRepresentation += punctuationSymbol.GetStringRepresentation();
+                        break;
+                }
+            }
+
+            return stringRepresentation;
+        }
+
         private void Verify()
         {
             var firstSentenceElement = Value.ToList().First();

@@ -28,6 +28,11 @@ namespace TextHandler.TextObjectModel.Words
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            return Value.Aggregate(string.Empty, (current, wordElement) => current + wordElement.GetStringRepresentation());
+        }
+
         private void Verify()
         {
             var wordList = Value.ToList();

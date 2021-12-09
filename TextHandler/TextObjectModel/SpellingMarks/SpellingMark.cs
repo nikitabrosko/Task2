@@ -22,6 +22,11 @@ namespace TextHandler.TextObjectModel.SpellingMarks
             }
         }
 
+        public string GetStringRepresentation()
+        {
+            return Value.ToString();
+        }
+
         private void Verify()
         {
             if (Value is not '\'' or '-')

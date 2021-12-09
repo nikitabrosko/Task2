@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using TextHandler.TextObjectModel.Sentences;
 
 namespace TextHandler.TextObjectModel.Texts
@@ -13,6 +14,11 @@ namespace TextHandler.TextObjectModel.Texts
         public void Append(ISentence sentence)
         {
             _text.Add(sentence);
+        }
+
+        public string GetStringRepresentation()
+        {
+            return Value.Aggregate(string.Empty, (current, sentence) => current + sentence.GetStringRepresentation());
         }
     }
 }
