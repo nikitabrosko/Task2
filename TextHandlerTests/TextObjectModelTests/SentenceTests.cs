@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.TextObjectModelTests
 {
@@ -63,7 +66,7 @@ namespace TextHandlerTests.TextObjectModelTests
         public void TestSentenceClassCreatingWithInvalidParametersElementsIsNull()
         {
             Assert.ThrowsException<ArgumentNullException>(() => new Sentence(null),
-                nameof(Sentence.Value));
+                nameof(ISentence.Value));
         }
 
         [TestMethod]
@@ -98,7 +101,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('\r'),
                     new PunctuationMark('\n')
@@ -127,7 +130,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -155,7 +158,7 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('?'),
                     new PunctuationMark('!')
@@ -198,7 +201,7 @@ namespace TextHandlerTests.TextObjectModelTests
             };
 
             Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
-                nameof(Sentence));
+                nameof(ISentence));
         }
 
         [TestMethod]
@@ -220,7 +223,7 @@ namespace TextHandlerTests.TextObjectModelTests
             };
 
             Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
-                nameof(Sentence));
+                nameof(ISentence));
         }
 
         [TestMethod]
@@ -243,7 +246,7 @@ namespace TextHandlerTests.TextObjectModelTests
             };
 
             Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
-                nameof(Sentence));
+                nameof(ISentence));
         }
     }
 }

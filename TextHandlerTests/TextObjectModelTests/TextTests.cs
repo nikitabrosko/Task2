@@ -5,8 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.TextObjectModelTests
 {
@@ -72,7 +76,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -84,8 +88,10 @@ namespace TextHandlerTests.TextObjectModelTests
             textObject.Append(sentenceFirst);
             textObject.Append(sentenceSecond);
 
-            Assert.IsTrue(sentenceFirst.Equals(textObject.Value.First()) 
-                          && sentenceSecond.Equals(textObject.Value.Last()));
+            Assert.IsTrue(sentenceFirst.GetStringRepresentation()
+                              .Equals(textObject.Value.First().GetStringRepresentation()) 
+                          && sentenceSecond.GetStringRepresentation()
+                              .Equals(textObject.Value.Last().GetStringRepresentation()));
         }
     }
 }
