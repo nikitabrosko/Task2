@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
-using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.TextObjectModelTests
@@ -32,6 +30,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('c'), 
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -39,6 +38,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -46,6 +46,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),

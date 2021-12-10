@@ -8,6 +8,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.ParsersTests
@@ -31,6 +32,7 @@ namespace TextHandlerTests.ParsersTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -71,6 +73,7 @@ namespace TextHandlerTests.ParsersTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -79,6 +82,7 @@ namespace TextHandlerTests.ParsersTests
                     new Letter('l'),
                     new Letter('d')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -124,6 +128,7 @@ namespace TextHandlerTests.ParsersTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -165,6 +170,8 @@ namespace TextHandlerTests.ParsersTests
 
         private static bool CompareTwoTextsForEqual(IText firstTextObject, IText secondTextObject)
         {
+            var first = firstTextObject.GetStringRepresentation();
+            var second = secondTextObject.GetStringRepresentation();
             return firstTextObject.GetStringRepresentation().Equals(secondTextObject.GetStringRepresentation());
         }
     }

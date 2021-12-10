@@ -9,6 +9,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.SpellingMarks;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.ParsersTests
@@ -151,6 +152,12 @@ namespace TextHandlerTests.ParsersTests
                 {
                     return punctuationMarkFirst.GetStringRepresentation()
                         .Equals(punctuationMarkSecond.GetStringRepresentation());
+                }
+                case IWhiteSpace whiteSpaceFirst
+                    when sentenceElementSecond is IWhiteSpace whiteSpaceSecond:
+                {
+                    return whiteSpaceFirst.GetStringRepresentation()
+                        .Equals(whiteSpaceSecond.GetStringRepresentation());
                 }
                 default:
                     return false;

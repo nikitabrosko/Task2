@@ -7,6 +7,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 using TextHandler.Tools;
 
@@ -58,6 +59,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -71,7 +73,9 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var sentenceSecond = new Sentence(new ISentenceElement[]
             {
                 wordFirst,
+                new WhiteSpace(' '),
                 wordSecond,
+                new WhiteSpace(' '),
                 wordThird,
                 punctuationSymbol
             });
@@ -90,41 +94,13 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 wordThird,
                 punctuationSymbol
             }));
             var actualTextObject = TextWorkingTool.RemoveWordsThatStartsWithConsonantLetter(textObject, 5);
 
-            Assert.IsTrue(ComparingTexts(expectedTextObject, actualTextObject));
-
-            bool ComparingTexts(IText firstText, IText secondText)
-            {
-                var firstTextList = (firstText.Value.First() as ISentence)?.Value.ToList();
-                var secondTextList = (secondText.Value.First() as ISentence)?.Value.ToList();
-
-                if (firstTextList?.Count != secondTextList?.Count)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < firstTextList?.Count; i++)
-                {
-                    if (firstTextList[i] is IWord firstWord && secondTextList?[i] is IWord secondWord)
-                    {
-                        var wordsElementsListFirst = firstWord.Value.ToList();
-                        var wordsElementsListSecond = secondWord.Value.ToList();
-
-                        if (wordsElementsListFirst.Count != wordsElementsListSecond.Count)
-                        {
-                            return false;
-                        }
-
-                        return !wordsElementsListFirst.Where((t, j) => t.Value != wordsElementsListSecond[j].Value).Any();
-                    }
-                }
-
-                return false;
-            }
+            Assert.IsTrue(expectedTextObject.GetStringRepresentation().Equals(actualTextObject.GetStringRepresentation()));
         }
 
         [TestMethod]
@@ -155,6 +131,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('c'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -162,6 +139,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -169,6 +147,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),

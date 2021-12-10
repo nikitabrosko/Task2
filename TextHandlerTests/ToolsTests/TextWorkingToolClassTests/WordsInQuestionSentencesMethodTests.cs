@@ -8,6 +8,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 using TextHandler.Tools;
 
@@ -40,6 +41,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             {
                 wordFirst,
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 wordSecond,
                 new PunctuationMark('?')
             });
@@ -56,6 +58,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('c'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -63,6 +66,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -70,6 +74,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -128,6 +133,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('c'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -135,6 +141,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -142,6 +149,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),

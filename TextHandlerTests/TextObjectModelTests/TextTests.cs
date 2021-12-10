@@ -6,6 +6,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.TextObjectModelTests
@@ -27,6 +28,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -50,6 +52,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('c'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -57,6 +60,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -64,6 +68,7 @@ namespace TextHandlerTests.TextObjectModelTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
