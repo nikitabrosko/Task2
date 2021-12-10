@@ -37,7 +37,8 @@ namespace TextHandler.Tools
                     .Where(e => (e as IWord)?.Value.Count() == wordLength)
                     .Select(w => w as IWord)
                     .Distinct())
-                .Aggregate((currentSentence, nextSentence) => currentSentence.Union(nextSentence));
+                .Aggregate((currentSentence, nextSentence) => currentSentence
+                    .Union(nextSentence));
         }
 
         public static IText RemoveWordsThatStartsWithConsonantLetter(IText text, int wordLength)
@@ -71,6 +72,11 @@ namespace TextHandler.Tools
                 {
                     if (sentenceElementsList.Count != 0)
                     {
+                        if (sentenceElementsList.First() is IWhiteSpace)
+                        {
+                            throw new ArgumentException("first element of sentence is white space");
+                        }
+
                         var sentence = new Sentence(sentenceElementsList);
                         newText.Append(sentence);
                     }
