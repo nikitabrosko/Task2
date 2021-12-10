@@ -9,7 +9,6 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.SpellingMarks;
-using TextHandler.TextObjectModel.Tabulations;
 using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
@@ -148,23 +147,6 @@ namespace TextHandlerTests.ParsersTests
             var actualNewLineObject = textObject.Value.First() as INewLine;
 
             Assert.AreEqual(expectedNewLineObject.GetStringRepresentation(), actualNewLineObject?.GetStringRepresentation());
-        }
-
-        [TestMethod]
-        public void TestCharacterIsPunctuationMethodWithValidParametersParameterTabulation()
-        {
-            var character = '\t';
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            File.WriteAllText(path, $"{character}New file.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var expectedTabulationObject = new Tabulation(character);
-
-            var textObject = parser.ReadFile();
-            File.Delete(path);
-            var actualTabulationObject = (textObject.Value.First() as ISentence).Value.First() as ITabulation;
-
-            Assert.AreEqual(expectedTabulationObject.GetStringRepresentation(),
-                actualTabulationObject.GetStringRepresentation());
         }
 
         [TestMethod]
