@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
@@ -97,6 +98,35 @@ namespace TextHandlerTests.TextObjectModelTests
         {
             var sentenceElements = new List<ISentenceElement>
             {
+                new Word(new IWordElement[]
+                {
+                    new Letter('s'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new PunctuationMark('!')
+            };
+
+            Assert.ThrowsException<ArgumentException>(() => new Sentence(sentenceElements),
+                nameof(ISentence));
+        }
+
+        [TestMethod]
+        public void TestSentenceClassCreatingWithInvalidParametersElementsFirstLetterIsPunctuationSymbol()
+        {
+            var sentenceElements = new List<ISentenceElement>
+            {
+                new PunctuationSymbol(new IPunctuationMark[]
+                {
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.')
+                }),
                 new Word(new IWordElement[]
                 {
                     new Letter('s'),
