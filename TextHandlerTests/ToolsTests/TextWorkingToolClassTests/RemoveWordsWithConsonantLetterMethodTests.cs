@@ -2,8 +2,12 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 using TextHandler.Tools;
 
 namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
@@ -36,7 +40,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                 new Letter('u'),
                 new Letter('r')
             });
-            var punctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
+            var punctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark('.'),
                 new PunctuationMark('.'),
@@ -45,7 +49,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var sentenceFirst = new Sentence(new ISentenceElement[]
             {
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('H'),
                     new Letter('e'),
@@ -54,7 +58,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('o')
                 }),
                 new PunctuationMark(','),
-                new Word(new Letter[]
+                new Word(new IWordElement[]
                 {
                     new Letter('w'),
                     new Letter('o'),
@@ -93,19 +97,19 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             Assert.IsTrue(ComparingTexts(expectedTextObject, actualTextObject));
 
-            bool ComparingTexts(Text firstText, Text secondText)
+            bool ComparingTexts(IText firstText, IText secondText)
             {
-                var firstTextList = firstText.Value.First().Value.ToList();
-                var secondTextList = secondText.Value.First().Value.ToList();
+                var firstTextList = (firstText.Value.First() as ISentence)?.Value.ToList();
+                var secondTextList = (secondText.Value.First() as ISentence)?.Value.ToList();
 
-                if (firstTextList.Count != secondTextList.Count)
+                if (firstTextList?.Count != secondTextList?.Count)
                 {
                     return false;
                 }
 
-                for (int i = 0; i < firstTextList.Count; i++)
+                for (int i = 0; i < firstTextList?.Count; i++)
                 {
-                    if (firstTextList[i] is Word firstWord && secondTextList[i] is Word secondWord)
+                    if (firstTextList[i] is IWord firstWord && secondTextList?[i] is IWord secondWord)
                     {
                         var wordsElementsListFirst = firstWord.Value.ToList();
                         var wordsElementsListSecond = secondWord.Value.ToList();
@@ -173,7 +177,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),

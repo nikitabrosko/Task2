@@ -2,8 +2,12 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 using TextHandler.Tools;
 
 namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
@@ -70,7 +74,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),

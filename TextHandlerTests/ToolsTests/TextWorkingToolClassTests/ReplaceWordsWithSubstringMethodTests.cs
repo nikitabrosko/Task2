@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.Parsers;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 using TextHandler.Tools;
 
 namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
@@ -75,7 +77,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -87,12 +89,11 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             textObject.Append(sentenceFirst);
             textObject.Append(sentenceSecond);
 
-            var parser = new ParserToObjectModel();
-
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
-                parser.ReadFile(path).Value.First().Value;
+                (parser.ReadFile().Value.First() as ISentence)?.Value;
             File.Delete(path);
 
             var expectedResult = new Text();
@@ -138,32 +139,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             expectedResult.Append(sentenceSecond);
             var actualResult = TextWorkingTool.ReplaceWordsWithSubstring(textObject, 0, substring, 5);
 
-            Assert.IsTrue(ComparingTexts(expectedResult, actualResult));
-
-            bool ComparingTexts(Text firstText, Text secondText)
-            {
-                var firstTextList = firstText.Value.ToList();
-                var secondTextList = secondText.Value.ToList();
-
-                if (firstTextList.Count != secondTextList.Count)
-                {
-                    return false;
-                }
-
-                for (int i = 0; i < firstTextList.Count; i++)
-                {
-                    var firstTextListCurrentSentence = firstTextList[i].Value.ToList();
-                    var secondTextListCurrentSentence = secondTextList[i].Value.ToList();
-
-                    if (firstTextListCurrentSentence.Count == secondTextListCurrentSentence.Count)
-                    {
-                        return !firstTextListCurrentSentence.Where((t, j) => t == secondTextListCurrentSentence[j]).Any();
-                    }
-                }
-
-                return true;
-
-            }
+            Assert.IsTrue(expectedResult.GetStringRepresentation().Equals(actualResult.GetStringRepresentation()));
         }
 
         [TestMethod]
@@ -172,12 +148,11 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             Text textObject = null;
             var sentenceIndex = 1;
 
-            var parser = new ParserToObjectModel();
-
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
-                parser.ReadFile(path).Value.First().Value;
+                (parser.ReadFile().Value.First() as ISentence)?.Value;
             File.Delete(path);
 
             var wordLength = 5;
@@ -226,7 +201,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -237,12 +212,11 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var textObject = new Text();
             textObject.Append(sentence);
 
-            var parser = new ParserToObjectModel();
-
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
-                parser.ReadFile(path).Value.First().Value;
+                (parser.ReadFile().Value.First() as ISentence)?.Value;
             File.Delete(path);
 
             var wordLength = 5;
@@ -289,7 +263,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -350,7 +324,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('d'),
                     new Letter('s')
                 }),
-                new PunctuationSymbol(new PunctuationMark[]
+                new PunctuationSymbol(new IPunctuationMark[]
                 {
                     new PunctuationMark('.'),
                     new PunctuationMark('.'),
@@ -363,12 +337,11 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var sentenceIndex = 1;
 
-            var parser = new ParserToObjectModel();
-
             string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
-                parser.ReadFile(path).Value.First().Value;
+                (parser.ReadFile().Value.First() as ISentence)?.Value;
             File.Delete(path);
 
             Assert.ThrowsException<ArgumentException>(() =>
