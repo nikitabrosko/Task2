@@ -68,8 +68,6 @@ namespace TextHandler.TextObjectModel.Sentences
                     throw new ArgumentException("first element of sentence can not be a punctuation mark");
                 case IPunctuationSymbol:
                     throw new ArgumentException("first element of sentence can not be a punctuation symbol");
-                case IWhiteSpace:
-                    throw new ArgumentException("first element of sentence can not be a white space");
                 case IWord word:
                     switch (word.Value.First())
                     {
