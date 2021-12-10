@@ -5,6 +5,7 @@ using System.Linq;
 using TextHandler.TextObjectModel.Letters;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.TextObjectModel.Sentences
@@ -48,6 +49,9 @@ namespace TextHandler.TextObjectModel.Sentences
                     case IPunctuationSymbol punctuationSymbol:
                         stringRepresentation += punctuationSymbol.GetStringRepresentation();
                         break;
+                    case IWhiteSpace whiteSpace:
+                        stringRepresentation += whiteSpace.GetStringRepresentation();
+                        break;
                 }
             }
 
@@ -64,6 +68,8 @@ namespace TextHandler.TextObjectModel.Sentences
                     throw new ArgumentException("first element of sentence can not be a punctuation mark");
                 case IPunctuationSymbol:
                     throw new ArgumentException("first element of sentence can not be a punctuation symbol");
+                case IWhiteSpace:
+                    throw new ArgumentException("first element of sentence can not be a white space");
                 case IWord word:
                     switch (word.Value.First())
                     {

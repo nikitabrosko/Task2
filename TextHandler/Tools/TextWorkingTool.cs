@@ -7,6 +7,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.Tools
@@ -49,7 +50,7 @@ namespace TextHandler.Tools
                 .Select(te => te as ISentence)
                 .Select(s => s?.Value
                     .Where(e =>
-                    e is IPunctuationMark or IPunctuationSymbol || 
+                    e is IPunctuationMark or IPunctuationSymbol or IWhiteSpace|| 
                     !(((IWord) e).Value.Count() == wordLength && 
                      consonants.Contains(char.ToLower(((ILetter) ((IWord) e).Value.First()).Value)))));
 
@@ -78,7 +79,7 @@ namespace TextHandler.Tools
                 {
                     switch (sentenceElementsList.First())
                     {
-                        case IPunctuationMark or IPunctuationSymbol:
+                        case IPunctuationMark or IPunctuationSymbol or IWhiteSpace:
                             sentenceElementsList.RemoveAt(0);
                             break;
                         case IWord word:
