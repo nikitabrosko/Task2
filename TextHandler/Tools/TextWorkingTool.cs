@@ -2,46 +2,58 @@
 using System.Collections.Generic;
 using System.Linq;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.Tools
 {
     public static class TextWorkingTool
     {
-        public static IEnumerable<Sentence> SentencesWithOrderByNumberOfWords(Text text)
+        public static IEnumerable<ISentence> SentencesWithOrderByNumberOfWords(IText text)
         {
             if (text is null)
             {
                 throw new ArgumentNullException(nameof(text));
             }
 
-            return text.Value.OrderByDescending(s => s.Value.Count(e => e is Word));
+            return text.Value
+                .Select(te => te as ISentence)
+                .OrderByDescending(s => s?.Value.Count(se => se is IWord));
         }
 
-        public static IEnumerable<Word> FindWordsInQuestionSentences(Text text, int wordLength)
+        public static IEnumerable<IWord> FindWordsInQuestionSentences(IText text, int wordLength)
         {
             CheckArgumentsForExceptions(text, wordLength);
 
             return text.Value
-                .Where(s => (s.Value.Last() as PunctuationMark)?.Value == '?')
-                .Select(s => s.Value.Where(e => (e as Word)?.Value.Count() == wordLength).Select(w => w as Word).Distinct())
+                .Select(te => te as ISentence)
+                .Where(s => (s?.Value.Last() as IPunctuationMark)?.Value == '?')
+                .Select(s => s?.Value
+                    .Where(e => (e as IWord)?.Value.Count() == wordLength)
+                    .Select(w => w as IWord)
+                    .Distinct())
                 .Aggregate((currentSentence, nextSentence) => currentSentence.Union(nextSentence));
         }
 
-        public static Text RemoveWordsThatStartsWithConsonantLetter(Text text, int wordLength)
+        public static IText RemoveWordsThatStartsWithConsonantLetter(IText text, int wordLength)
         {
             CheckArgumentsForExceptions(text, wordLength);
 
             var consonants = "bcdfghjklmnpqrstvwxz".ToList();
 
             var sentences = text.Value
-                .Select(s => s.Value.Where(e =>
-                    e is PunctuationMark or PunctuationSymbol || 
-                    !(((Word) e).Value.Count() == wordLength && 
-                     consonants.Contains(char.ToLower(((Letter) ((Word) e).Value.First()).Value)))));
+                .Select(te => te as ISentence)
+                .Select(s => s?.Value
+                    .Where(e =>
+                    e is IPunctuationMark or IPunctuationSymbol || 
+                    !(((IWord) e).Value.Count() == wordLength && 
+                     consonants.Contains(char.ToLower(((ILetter) ((IWord) e).Value.First()).Value)))));
 
-            Text newText = new Text();
+            var newText = new Text();
 
             foreach (var sentenceElements in sentences)
             {
@@ -66,12 +78,12 @@ namespace TextHandler.Tools
                 {
                     switch (sentenceElementsList.First())
                     {
-                        case PunctuationMark or PunctuationSymbol:
+                        case IPunctuationMark or IPunctuationSymbol:
                             sentenceElementsList.RemoveAt(0);
                             break;
-                        case Word word:
+                        case IWord word:
                         {
-                            char firstCharacter = ((Letter)word.Value.First()).Value;
+                            char firstCharacter = ((ILetter)word.Value.First()).Value;
 
                             if (char.IsLower(firstCharacter))
                             {
@@ -90,7 +102,7 @@ namespace TextHandler.Tools
             }
         }
 
-        public static Text ReplaceWordsWithSubstring(Text mainText, int sentenceIndex, IEnumerable<ISentenceElement> substringText, int wordLength)
+        public static IText ReplaceWordsWithSubstring(IText mainText, int sentenceIndex, IEnumerable<ISentenceElement> substringText, int wordLength)
         {
             CheckArgumentsForExceptions(mainText, wordLength);
 
@@ -106,10 +118,15 @@ namespace TextHandler.Tools
                 throw new ArgumentOutOfRangeException(nameof(sentenceIndex));
             }
 
-            var previousSentence = mainTextTemp[sentenceIndex].Value.ToList();
+            if (mainTextTemp[sentenceIndex] is not ISentence)
+            {
+                throw new ArgumentException($"value with index {sentenceIndex} is not a Sentence");
+            }
 
-            var words = previousSentence.Where(e => e is Word)
-                .Where(w => ((Word) w).Value.Count() == wordLength);
+            var previousSentence = (mainTextTemp[sentenceIndex] as ISentence).Value.ToList();
+
+            var words = previousSentence.Where(e => e is IWord)
+                .Where(w => ((IWord) w).Value.Count() == wordLength);
             
             var newSentenceCount = previousSentence.Count;
 
@@ -140,7 +157,7 @@ namespace TextHandler.Tools
             return newText;
         }
 
-        private static void CheckArgumentsForExceptions(Text text, int wordLength)
+        private static void CheckArgumentsForExceptions(IText text, int wordLength)
         {
             if (text is null)
             {
