@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
@@ -89,9 +85,9 @@ namespace TextHandlerTests.TextObjectModelTests
             textObject.Append(sentenceSecond);
 
             Assert.IsTrue(sentenceFirst.GetStringRepresentation()
-                              .Equals(textObject.Value.First().GetStringRepresentation()) 
+                              .Equals((textObject.Value.First() as ISentence)?.GetStringRepresentation()) 
                           && sentenceSecond.GetStringRepresentation()
-                              .Equals(textObject.Value.Last().GetStringRepresentation()));
+                              .Equals((textObject.Value.Last() as ISentence)?.GetStringRepresentation()));
         }
     }
 }
