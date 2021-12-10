@@ -3,8 +3,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.Parsers;
 using TextHandler.TextObjectModel;
 using System.Linq;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.SpellingMarks;
+using TextHandler.TextObjectModel.Words;
 
 namespace TextHandlerTests.ParsersTests
 {
@@ -14,22 +17,22 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsDotMethodWithValidParameters()
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file...");
-            var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark('.'),
                 new PunctuationMark('.'),
                 new PunctuationMark('.')
             });
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
             var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[2];
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol,
-                actualPunctuationSymbol as PunctuationSymbol));
+                actualPunctuationSymbol as IPunctuationSymbol));
         }
 
         [TestMethod]
@@ -37,21 +40,21 @@ namespace TextHandlerTests.ParsersTests
         [DataRow('\'')]
         public void TestCharacterIsPunctuationInWordMethodWithValidParameters(char character)
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"Ain{character}t.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedWord = new Word(new IWordElement[]
             {
                 new Letter('A'),
                 new Letter('i'),
                 new Letter('n'),
-                new PunctuationMark(character),
+                new SpellingMark(character),
                 new Letter('t')
             });
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualWord = textObject.Value.First().Value.First() as Word;
+            var actualWord = textObject.Value.First().Value.First() as IWord;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedWord, actualWord));
         }
@@ -59,14 +62,14 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterComma()
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New, file.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationMark = new PunctuationMark(',');
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualPunctuationMark = textObject.Value.First().Value.ToList()[1] as PunctuationMark;
+            var actualPunctuationMark = textObject.Value.First().Value.ToList()[1] as IPunctuationMark;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
         }
@@ -74,14 +77,14 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMark()
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationMark = new PunctuationMark('?');
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualPunctuationMark = textObject.Value.First().Value.ToList()[2] as PunctuationMark;
+            var actualPunctuationMark = textObject.Value.First().Value.ToList()[2] as IPunctuationMark;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
         }
@@ -89,18 +92,18 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMarkAndExclamationMark()
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?!");
-            var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark('?'),
                 new PunctuationMark('!')
             });
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[2] as PunctuationSymbol;
+            var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[2] as IPunctuationSymbol;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol, actualPunctuationSymbol));
         }
@@ -110,14 +113,14 @@ namespace TextHandlerTests.ParsersTests
         [DataRow('\r')]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterNewLinePunctuationMark(char character)
         {
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"{character}New file.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationMark = new PunctuationMark(character);
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualPunctuationMark = textObject.Value.First().Value.ToList()[0] as PunctuationMark;
+            var actualPunctuationMark = textObject.Value.First().Value.ToList()[0] as IPunctuationMark;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
         }
@@ -125,20 +128,20 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterNewLinePunctuationSymbol()
         {
-            char characterFirst = '\r';
-            char characterSecond = '\n';
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
-            ParserToObjectModel parser = new ParserToObjectModel();
+            var characterFirst = '\r';
+            var characterSecond = '\n';
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"{characterFirst}{characterSecond}New file.");
-            var expectedPunctuationSymbol = new PunctuationSymbol(new PunctuationMark[]
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark(characterFirst),
                 new PunctuationMark(characterSecond)
             });
 
-            var textObject = parser.ReadFile(path);
+            var textObject = parser.ReadFile();
             File.Delete(path);
-            var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[0] as PunctuationSymbol;
+            var actualPunctuationSymbol = textObject.Value.First().Value.ToList()[0] as IPunctuationSymbol;
 
             Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol, actualPunctuationSymbol));
         }
@@ -147,30 +150,24 @@ namespace TextHandlerTests.ParsersTests
         {
             switch (sentenceElementFirst)
             {
-                case Word wordFirst when sentenceElementSecond is Word wordSecond:
+                case IWord wordFirst 
+                    when sentenceElementSecond is IWord wordSecond:
                 {
-                    var sentenceElementFirstList = wordFirst.Value.ToList();
-                    var sentenceElementSecondList = wordSecond.Value.ToList();
-
-                    if (sentenceElementFirstList.Count != sentenceElementSecondList.Count)
-                    {
-                        return false;
-                    }
-
-                    return !sentenceElementFirstList.Where((t, i) => t.Value != sentenceElementSecondList[i].Value).Any();
+                    return wordFirst.GetStringRepresentation()
+                        .Equals(wordSecond.GetStringRepresentation());
                 }
-                case PunctuationSymbol punctuationSymbolFirst when sentenceElementSecond is PunctuationSymbol punctuationSymbolSecond:
-                    var punctuationSymbolFirstList = punctuationSymbolFirst.Value.ToList();
-                    var punctuationSymbolSecondList = punctuationSymbolSecond.Value.ToList();
-
-                    if (punctuationSymbolFirstList.Count != punctuationSymbolSecondList.Count)
-                    {
-                        return false;
-                    }
-
-                    return !punctuationSymbolFirstList.Where((t, i) => t.Value != punctuationSymbolSecondList[i].Value).Any();
-                case PunctuationMark punctuationMarkFirst when sentenceElementSecond is PunctuationMark punctuationMarkSecond:
-                    return punctuationMarkFirst.Value == punctuationMarkSecond.Value;
+                case IPunctuationSymbol punctuationSymbolFirst 
+                    when sentenceElementSecond is IPunctuationSymbol punctuationSymbolSecond:
+                {
+                    return punctuationSymbolFirst.GetStringRepresentation()
+                        .Equals(punctuationSymbolSecond.GetStringRepresentation());
+                }
+                case IPunctuationMark punctuationMarkFirst
+                    when sentenceElementSecond is IPunctuationMark punctuationMarkSecond:
+                {
+                    return punctuationMarkFirst.GetStringRepresentation()
+                        .Equals(punctuationMarkSecond.GetStringRepresentation());
+                }
                 default:
                     return false;
             }
