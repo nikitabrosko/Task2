@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.Parsers;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.NewLines;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
@@ -316,6 +317,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('c'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('h'),
@@ -323,6 +325,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('v'),
                     new Letter('e')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('f'),
@@ -330,6 +333,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
                     new Letter('u'),
                     new Letter('r')
                 }),
+                new WhiteSpace(' '),
                 new Word(new IWordElement[]
                 {
                     new Letter('w'),
@@ -360,6 +364,75 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             Assert.ThrowsException<ArgumentException>(() =>
                 TextWorkingTool.ReplaceWordsWithSubstring(textObject, sentenceIndex, substring, wordLength), nameof(wordLength));
+        }
+
+        [TestMethod]
+        public void TestReplaceWordsWithSubstringWithInvalidParametersParameterIsNotSentence()
+        {
+            var sentence = new Sentence(new ISentenceElement[]
+            {
+                new Word(new IWordElement[]
+                {
+                    new Letter('S'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('t'),
+                    new Letter('e'),
+                    new Letter('n'),
+                    new Letter('c'),
+                    new Letter('e')
+                }),
+                new WhiteSpace(' '),
+                new Word(new IWordElement[]
+                {
+                    new Letter('h'),
+                    new Letter('a'),
+                    new Letter('v'),
+                    new Letter('e')
+                }),
+                new WhiteSpace(' '),
+                new Word(new IWordElement[]
+                {
+                    new Letter('f'),
+                    new Letter('o'),
+                    new Letter('u'),
+                    new Letter('r')
+                }),
+                new WhiteSpace(' '),
+                new Word(new IWordElement[]
+                {
+                    new Letter('w'),
+                    new Letter('o'),
+                    new Letter('r'),
+                    new Letter('d'),
+                    new Letter('s')
+                }),
+                new PunctuationSymbol(new IPunctuationMark[]
+                {
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.'),
+                    new PunctuationMark('.')
+                })
+            });
+            var textObject = new Text();
+            textObject.Append(new NewLine(new char[]
+            {
+                '\r',
+                '\n'
+            }));
+            textObject.Append(sentence);
+
+            var sentenceIndex = 0;
+
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            File.WriteAllText(path, "Lorem ipsum.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var substring =
+                (parser.ReadFile().Value.First() as ISentence)?.Value;
+            File.Delete(path);
+
+            Assert.ThrowsException<ArgumentException>(() =>
+                TextWorkingTool.ReplaceWordsWithSubstring(textObject, sentenceIndex, substring, 5));
         }
     }
 }
