@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
 using TextHandler.TextObjectModel.NewLines;
@@ -56,7 +57,10 @@ namespace TextHandler.Parsers
                 AddWordToSentenceBufferAndClearWordBuffer();
             }
 
-            _sentenceBuffer.Add(new WhiteSpace(character));
+            if (!(_sentenceBuffer.Count != 0 && _sentenceBuffer.Last() is IWhiteSpace))
+            {
+                _sentenceBuffer.Add(new WhiteSpace(character));
+            }
         }
 
         private void CharacterIsPunctuationOrSpelling(char character)
@@ -77,6 +81,9 @@ namespace TextHandler.Parsers
                 case '-':
                 case '\'':
                     _wordBuffer.Add(new SpellingMark(character));
+                    break;
+                case '\t':
+                    CharacterIsWhiteSpace(' ');
                     break;
                 case '\n':
                 case '\r':
@@ -156,35 +163,36 @@ namespace TextHandler.Parsers
 
         private void ReadNext()
         {
-            if (_textReader.Peek() == -1)
+            while (true)
             {
-                return;
-            }
+                if (_textReader.Peek() == -1)
+                {
+                    return;
+                }
 
-            char currentCharacter = (char)_textReader.Read();
+                char currentCharacter = (char) _textReader.Read();
 
-            CharacterCheck characterCheck = null;
+                CharacterCheck characterCheck = null;
 
-            if (char.IsLetter(currentCharacter))
-            {
-                characterCheck = CharacterIsLetter;
-            }
-            else if (currentCharacter is '\n' or '\r')
-            {
-                characterCheck = CharacterIsPunctuationOrSpelling;
-            }
-            else if (currentCharacter == ' ')
-            {
-                characterCheck = CharacterIsWhiteSpace;
-            }
-            else if (char.IsPunctuation(currentCharacter))
-            {
-                characterCheck = CharacterIsPunctuationOrSpelling;
-            }
+                if (char.IsLetter(currentCharacter))
+                {
+                    characterCheck = CharacterIsLetter;
+                }
+                else if (currentCharacter is '\n' or '\r' or '\t')
+                {
+                    characterCheck = CharacterIsPunctuationOrSpelling;
+                }
+                else if (currentCharacter == ' ')
+                {
+                    characterCheck = CharacterIsWhiteSpace;
+                }
+                else if (char.IsPunctuation(currentCharacter))
+                {
+                    characterCheck = CharacterIsPunctuationOrSpelling;
+                }
 
-            characterCheck?.Invoke(currentCharacter);
-
-            ReadNext();
+                characterCheck?.Invoke(currentCharacter);
+            }
         }
 
         private void AddWordToSentenceBufferAndClearWordBuffer()
