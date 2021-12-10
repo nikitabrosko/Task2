@@ -55,24 +55,15 @@ namespace TextHandler.TextObjectModel.Punctuations.PunctuationSymbols
                     new PunctuationMark('.')
                 };
 
-                var punctuationSymbolThird = new IPunctuationMark[]
-                {
-                    new PunctuationMark('\r'),
-                    new PunctuationMark('\n')
-                };
-
                 var punctuationSymbolList = Value.ToList();
 
                 switch (punctuationSymbolList.Count)
                 {
                     case 2:
                     {
-                        if (punctuationSymbolList.Where((t, i) => !t.Value.Equals(punctuationSymbolThird[i].Value)).Any())
+                        if (punctuationSymbolList.Where((t, i) => !t.Value.Equals(punctuationMarksFirst[i].Value)).Any())
                         {
-                            if (punctuationSymbolList.Where((t, i) => !t.Value.Equals(punctuationMarksFirst[i].Value)).Any())
-                            {
-                                return false;
-                            }
+                            return false;
                         }
 
                         break;

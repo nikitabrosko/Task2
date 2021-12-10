@@ -34,7 +34,7 @@ namespace TextHandler.TextObjectModel.Punctuations.PunctuationMarks
                 throw new ArgumentException("punctuation mark can not be a digit!");
             }
 
-            if (Value is ' ')
+            if (char.IsWhiteSpace(Value))
             {
                 throw new ArgumentException("punctuation mark can not be a whitespace");
             }

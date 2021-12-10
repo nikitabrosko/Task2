@@ -1,24 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using TextHandler.TextObjectModel.NewLines;
 using TextHandler.TextObjectModel.Sentences;
 
 namespace TextHandler.TextObjectModel.Texts
 {
     public class Text : IText
     {
-        private readonly IList<ISentence> _text = new List<ISentence>();
+        private readonly IList<ITextElement> _text = new List<ITextElement>();
 
-        public IEnumerable<ISentence> Value => new ReadOnlyCollection<ISentence>(_text);
+        public IEnumerable<ITextElement> Value => new ReadOnlyCollection<ITextElement>(_text);
 
-        public void Append(ISentence sentence)
+        public void Append(ITextElement sentence)
         {
             _text.Add(sentence);
         }
 
         public string GetStringRepresentation()
         {
-            return Value.Aggregate(string.Empty, (current, sentence) => current + sentence.GetStringRepresentation());
+            var stringRepresentation = string.Empty;
+
+            foreach (var textElement in Value)
+            {
+                switch (textElement)
+                {
+                    case ISentence sentence:
+                        stringRepresentation += sentence.GetStringRepresentation();
+                        break;
+                    case INewLine newLine:
+                        stringRepresentation += newLine.GetStringRepresentation();
+                        break;
+                }
+            }
+
+            return stringRepresentation;
         }
     }
 }

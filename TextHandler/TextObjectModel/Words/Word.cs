@@ -44,7 +44,7 @@ namespace TextHandler.TextObjectModel.Words
 
             if (Value.First() is ISpellingMark)
             {
-                throw new ArgumentException("first element of word can not be a punctuation mark");
+                throw new ArgumentException("first element of word can not be a spelling mark");
             }
         }
     }

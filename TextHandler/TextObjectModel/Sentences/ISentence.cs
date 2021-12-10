@@ -2,7 +2,7 @@
 
 namespace TextHandler.TextObjectModel.Sentences
 {
-    public interface ISentence : ITextModelElement<IEnumerable<ISentenceElement>>
+    public interface ISentence : ITextElement, ITextModelElement<IEnumerable<ISentenceElement>>
     {
     }
 }

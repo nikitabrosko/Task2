@@ -60,38 +60,10 @@ namespace TextHandler.TextObjectModel.Sentences
 
             switch (firstSentenceElement)
             {
-                case IPunctuationMark punctuationMark:
-                    switch (punctuationMark.Value)
-                    {
-                        case '\n':
-                        case '\r':
-                            break;
-                        default:
-                            throw new ArgumentException("first element of sentence can not be a punctuation mark");
-                    }
-
-                    break;
-                case IPunctuationSymbol punctuationSymbol:
-                    var punctuationSymbolFirst = new PunctuationSymbol(new IPunctuationMark[]
-                    {
-                        new PunctuationMark('\r'),
-                        new PunctuationMark('\n')
-                    });
-
-                    if (punctuationSymbol.Value.Count() != punctuationSymbolFirst.Value.Count())
-                    {
-                        throw new ArgumentException("first element of sentence can not be a punctuation symbol");
-                    }
-
-                    for (int i = 0; i < punctuationSymbol.Value.Count(); i++)
-                    {
-                        if (punctuationSymbol.Value.ToList()[i].Value != punctuationSymbolFirst.Value.ToList()[i].Value)
-                        {
-                            throw new ArgumentException("first element of sentence can not be a punctuation symbol");
-                        }
-                    }
-
-                    break;
+                case IPunctuationMark:
+                    throw new ArgumentException("first element of sentence can not be a punctuation mark");
+                case IPunctuationSymbol:
+                    throw new ArgumentException("first element of sentence can not be a punctuation symbol");
                 case IWord word:
                     switch (word.Value.First())
                     {

@@ -3,8 +3,8 @@ using TextHandler.TextObjectModel.Sentences;
 
 namespace TextHandler.TextObjectModel.Texts
 {
-    public interface IText : ITextModelElement<IEnumerable<ISentence>>
+    public interface IText : ITextModelElement<IEnumerable<ITextElement>>
     {
-        void Append(ISentence sentence);
+        void Append(ITextElement sentence);
     }
 }
