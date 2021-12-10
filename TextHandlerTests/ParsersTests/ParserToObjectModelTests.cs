@@ -9,6 +9,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.SpellingMarks;
+using TextHandler.TextObjectModel.Tabulations;
 using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
@@ -17,6 +18,20 @@ namespace TextHandlerTests.ParsersTests
     [TestClass]
     public class ParserToObjectModelTests
     {
+        [TestMethod]
+        public void Debug()
+        {
+            var pathFrom = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\file1.txt";
+            var pathTo = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\file2.txt";
+            var parserToObjectModel = new ParserToObjectModel(new StreamReader(pathFrom));
+            var textObject = parserToObjectModel.ReadFile();
+
+            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(pathTo));
+            parserFromObjectModel.WriteInFile(textObject);
+
+            string str = "1";
+        }
+
         [TestMethod]
         public void TestCharacterIsDotMethodWithValidParameters()
         {
@@ -33,10 +48,10 @@ namespace TextHandlerTests.ParsersTests
             var textObject = parser.ReadFile();
             File.Delete(path);
             var actualPunctuationSymbol = (textObject.Value.First() as ISentence)?.Value.ToList()
-                .Find(el => el is IPunctuationSymbol);
+                .Find(el => el is IPunctuationSymbol) as IPunctuationSymbol;
 
-            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol,
-                actualPunctuationSymbol as IPunctuationSymbol));
+            Assert.AreEqual(expectedPunctuationSymbol.GetStringRepresentation(),
+                actualPunctuationSymbol.GetStringRepresentation());
         }
 
         [TestMethod]
@@ -60,7 +75,8 @@ namespace TextHandlerTests.ParsersTests
             File.Delete(path);
             var actualWord = (textObject.Value.First() as ISentence)?.Value.First() as IWord;
 
-            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedWord, actualWord));
+            Assert.AreEqual(expectedWord.GetStringRepresentation(),
+                actualWord.GetStringRepresentation());
         }
 
         [TestMethod]
@@ -75,7 +91,8 @@ namespace TextHandlerTests.ParsersTests
             File.Delete(path);
             var actualPunctuationMark = (textObject.Value.First() as ISentence)?.Value.ToList()[1] as IPunctuationMark;
 
-            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
+            Assert.AreEqual(expectedPunctuationMark.GetStringRepresentation(),
+                actualPunctuationMark.GetStringRepresentation());
         }
 
         [TestMethod]
@@ -89,9 +106,10 @@ namespace TextHandlerTests.ParsersTests
             var textObject = parser.ReadFile();
             File.Delete(path);
             var actualPunctuationMark = (textObject.Value.First() as ISentence)?.Value.ToList()
-                .Find(el => el is IPunctuationMark);
+                .Find(el => el is IPunctuationMark) as IPunctuationMark;
 
-            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationMark, actualPunctuationMark));
+            Assert.AreEqual(expectedPunctuationMark.GetStringRepresentation(),
+                actualPunctuationMark.GetStringRepresentation());
         }
 
         [TestMethod]
@@ -109,9 +127,10 @@ namespace TextHandlerTests.ParsersTests
             var textObject = parser.ReadFile();
             File.Delete(path);
             var actualPunctuationSymbol = (textObject.Value.First() as ISentence)?.Value.ToList()
-                .Find(el => el is IPunctuationSymbol);
+                .Find(el => el is IPunctuationSymbol) as IPunctuationSymbol;
 
-            Assert.IsTrue(CheckTwoISentenceElementsForEqual(expectedPunctuationSymbol, actualPunctuationSymbol));
+            Assert.AreEqual(expectedPunctuationSymbol.GetStringRepresentation(), 
+                actualPunctuationSymbol.GetStringRepresentation());
         }
 
         [TestMethod]
@@ -128,40 +147,42 @@ namespace TextHandlerTests.ParsersTests
             File.Delete(path);
             var actualNewLineObject = textObject.Value.First() as INewLine;
 
-            Assert.IsTrue(expectedNewLineObject.GetStringRepresentation().Equals(actualNewLineObject?.GetStringRepresentation()));
+            Assert.AreEqual(expectedNewLineObject.GetStringRepresentation(), actualNewLineObject?.GetStringRepresentation());
         }
 
-        private static bool CheckTwoISentenceElementsForEqual(ISentenceElement sentenceElementFirst, ISentenceElement sentenceElementSecond)
+        [TestMethod]
+        public void TestCharacterIsPunctuationMethodWithValidParametersParameterTabulation()
         {
-            switch (sentenceElementFirst)
-            {
-                case IWord wordFirst 
-                    when sentenceElementSecond is IWord wordSecond:
-                {
-                    return wordFirst.GetStringRepresentation()
-                        .Equals(wordSecond.GetStringRepresentation());
-                }
-                case IPunctuationSymbol punctuationSymbolFirst 
-                    when sentenceElementSecond is IPunctuationSymbol punctuationSymbolSecond:
-                {
-                    return punctuationSymbolFirst.GetStringRepresentation()
-                        .Equals(punctuationSymbolSecond.GetStringRepresentation());
-                }
-                case IPunctuationMark punctuationMarkFirst
-                    when sentenceElementSecond is IPunctuationMark punctuationMarkSecond:
-                {
-                    return punctuationMarkFirst.GetStringRepresentation()
-                        .Equals(punctuationMarkSecond.GetStringRepresentation());
-                }
-                case IWhiteSpace whiteSpaceFirst
-                    when sentenceElementSecond is IWhiteSpace whiteSpaceSecond:
-                {
-                    return whiteSpaceFirst.GetStringRepresentation()
-                        .Equals(whiteSpaceSecond.GetStringRepresentation());
-                }
-                default:
-                    return false;
-            }
+            var character = '\t';
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            File.WriteAllText(path, $"{character}New file.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var expectedTabulationObject = new Tabulation(character);
+
+            var textObject = parser.ReadFile();
+            File.Delete(path);
+            var actualTabulationObject = (textObject.Value.First() as ISentence).Value.First() as ITabulation;
+
+            Assert.AreEqual(expectedTabulationObject.GetStringRepresentation(),
+                actualTabulationObject.GetStringRepresentation());
+        }
+
+        [TestMethod]
+        public void TestCharacterIsPunctuationMethodWithValidParametersParameterWhiteSpace()
+        {
+            var character = ' ';
+            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            File.WriteAllText(path, $"New{character}file.");
+            var parser = new ParserToObjectModel(new StreamReader(path));
+            var expectedWhiteSpaceObject = new WhiteSpace(character);
+
+            var textObject = parser.ReadFile();
+            File.Delete(path);
+            var actualWhiteSpaceObject = (textObject.Value.First() as ISentence).Value.ToList()
+                .Find(se => se is IWhiteSpace) as IWhiteSpace;
+
+            Assert.AreEqual(expectedWhiteSpaceObject.GetStringRepresentation(),
+                actualWhiteSpaceObject.GetStringRepresentation());
         }
     }
 }
