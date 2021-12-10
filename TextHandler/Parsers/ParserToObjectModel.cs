@@ -2,11 +2,13 @@
 using System.IO;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.NewLines;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.SpellingMarks;
 using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.Parsers
@@ -15,14 +17,14 @@ namespace TextHandler.Parsers
     {
         private delegate void CharacterCheck(char character);
 
-        private readonly TextReader _streamReader;
+        private readonly TextReader _textReader;
         private readonly IList<IWordElement> _wordBuffer = new List<IWordElement>();
         private readonly IList<ISentenceElement> _sentenceBuffer = new List<ISentenceElement>();
         private IText _text = new Text();
 
         public ParserToObjectModel(TextReader textReader)
         {
-            _streamReader = textReader;
+            _textReader = textReader;
         }
 
         public IText ReadFile()
@@ -35,7 +37,7 @@ namespace TextHandler.Parsers
             }
             finally
             {
-                _streamReader.Dispose();
+                _textReader.Dispose();
                 _wordBuffer.Clear();
                 _sentenceBuffer.Clear();
                 _text = new Text();
@@ -53,6 +55,8 @@ namespace TextHandler.Parsers
             {
                 AddWordToSentenceBufferAndClearWordBuffer();
             }
+
+            _sentenceBuffer.Add(new WhiteSpace(character));
         }
 
         private void CharacterIsPunctuationOrSpelling(char character)
@@ -89,7 +93,7 @@ namespace TextHandler.Parsers
         {
             AddWordToSentenceBufferAndClearWordBuffer();
 
-            char nextCharacter = (char) _streamReader.Peek();
+            char nextCharacter = (char)_textReader.Peek();
 
             if (nextCharacter == '.')
             {
@@ -97,8 +101,8 @@ namespace TextHandler.Parsers
                     new IPunctuationMark[]
                     {
                         new PunctuationMark(character),
-                        new PunctuationMark((char)_streamReader.Read()),
-                        new PunctuationMark((char)_streamReader.Read())
+                        new PunctuationMark((char)_textReader.Read()),
+                        new PunctuationMark((char)_textReader.Read())
                     }));
             }
             else
@@ -113,7 +117,7 @@ namespace TextHandler.Parsers
         {
             AddWordToSentenceBufferAndClearWordBuffer();
 
-            char nextCharacter = (char) _streamReader.Peek();
+            char nextCharacter = (char)_textReader.Peek();
 
             if (nextCharacter == '!')
             {
@@ -121,7 +125,7 @@ namespace TextHandler.Parsers
                     new IPunctuationMark[]
                     {
                         new PunctuationMark(character), 
-                        new PunctuationMark((char)_streamReader.Read())
+                        new PunctuationMark((char)_textReader.Read())
                     }));
             }
             else
@@ -134,31 +138,30 @@ namespace TextHandler.Parsers
 
         private void CharacterIsNewLine(char character)
         {
-            char nextCharacter = (char)_streamReader.Peek();
+            char nextCharacter = (char)_textReader.Peek();
 
             if (nextCharacter is '\n')
             {
-                _sentenceBuffer.Add(new PunctuationSymbol(
-                    new IPunctuationMark[]
-                    {
-                        new PunctuationMark(character),
-                        new PunctuationMark((char)_streamReader.Read())
-                    }));
+                _text.Append(new NewLine(new char[]
+                {
+                    character, 
+                    (char) _textReader.Read()
+                }));
             }
             else
             {
-                _sentenceBuffer.Add(new PunctuationMark(character));
+                _text.Append(new NewLine(character));
             }
         }
 
         private void ReadNext()
         {
-            if (_streamReader.Peek() == -1)
+            if (_textReader.Peek() == -1)
             {
                 return;
             }
 
-            char currentCharacter = (char)_streamReader.Read();
+            char currentCharacter = (char)_textReader.Read();
 
             CharacterCheck characterCheck = null;
 
