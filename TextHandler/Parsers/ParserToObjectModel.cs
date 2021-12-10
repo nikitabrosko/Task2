@@ -1,8 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using TextHandler.TextObjectModel;
-using TextHandler.TextObjectModel.Characters.Letters;
-using TextHandler.TextObjectModel.Characters.Punctuation;
+using TextHandler.TextObjectModel.Letters;
+using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
+using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
+using TextHandler.TextObjectModel.Sentences;
+using TextHandler.TextObjectModel.SpellingMarks;
+using TextHandler.TextObjectModel.Texts;
+using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.Parsers
 {
@@ -10,17 +15,20 @@ namespace TextHandler.Parsers
     {
         private delegate void CharacterCheck(char character);
 
-        private StreamReader _streamReader;
+        private readonly TextReader _streamReader;
         private readonly IList<IWordElement> _wordBuffer = new List<IWordElement>();
         private readonly IList<ISentenceElement> _sentenceBuffer = new List<ISentenceElement>();
-        private Text _text = new Text();
+        private IText _text = new Text();
 
-        public Text ReadFile(string path)
+        public ParserToObjectModel(TextReader textReader)
+        {
+            _streamReader = textReader;
+        }
+
+        public IText ReadFile()
         {
             try
             {
-                _streamReader = File.OpenText(path);
-
                 ReadNext();
 
                 return _text;
@@ -47,7 +55,7 @@ namespace TextHandler.Parsers
             }
         }
 
-        private void CharacterIsPunctuation(char character)
+        private void CharacterIsPunctuationOrSpelling(char character)
         {
             switch (character)
             {
@@ -64,7 +72,7 @@ namespace TextHandler.Parsers
                     break;
                 case '-':
                 case '\'':
-                    _wordBuffer.Add(new PunctuationMark(character));
+                    _wordBuffer.Add(new SpellingMark(character));
                     break;
                 case '\n':
                 case '\r':
@@ -86,7 +94,7 @@ namespace TextHandler.Parsers
             if (nextCharacter == '.')
             {
                 _sentenceBuffer.Add(new PunctuationSymbol(
-                    new PunctuationMark[]
+                    new IPunctuationMark[]
                     {
                         new PunctuationMark(character),
                         new PunctuationMark((char)_streamReader.Read()),
@@ -110,7 +118,7 @@ namespace TextHandler.Parsers
             if (nextCharacter == '!')
             {
                 _sentenceBuffer.Add(new PunctuationSymbol(
-                    new PunctuationMark[]
+                    new IPunctuationMark[]
                     {
                         new PunctuationMark(character), 
                         new PunctuationMark((char)_streamReader.Read())
@@ -131,7 +139,7 @@ namespace TextHandler.Parsers
             if (nextCharacter is '\n')
             {
                 _sentenceBuffer.Add(new PunctuationSymbol(
-                    new PunctuationMark[]
+                    new IPunctuationMark[]
                     {
                         new PunctuationMark(character),
                         new PunctuationMark((char)_streamReader.Read())
@@ -160,7 +168,7 @@ namespace TextHandler.Parsers
             }
             else if (currentCharacter is '\n' or '\r')
             {
-                characterCheck = CharacterIsPunctuation;
+                characterCheck = CharacterIsPunctuationOrSpelling;
             }
             else if (currentCharacter == ' ')
             {
@@ -168,7 +176,7 @@ namespace TextHandler.Parsers
             }
             else if (char.IsPunctuation(currentCharacter))
             {
-                characterCheck = CharacterIsPunctuation;
+                characterCheck = CharacterIsPunctuationOrSpelling;
             }
 
             characterCheck?.Invoke(currentCharacter);
