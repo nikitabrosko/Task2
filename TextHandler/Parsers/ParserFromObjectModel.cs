@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using TextHandler.TextObjectModel.NewLines;
-using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
 
 namespace TextHandler.Parsers
@@ -36,15 +34,7 @@ namespace TextHandler.Parsers
 
             foreach (var textElement in text.Value)
             {
-                switch (textElement)
-                {
-                    case ISentence sentence:
-                        _textWriter.Write(sentence.GetStringRepresentation());
-                        break;
-                    case INewLine newLine:
-                        _textWriter.Write(newLine.GetStringRepresentation());
-                        break;
-                }
+                _textWriter.Write(textElement.GetStringRepresentation());
             }
         }
     }

@@ -22,7 +22,7 @@ namespace TextHandler.Tools
             }
 
             return text.Value
-                .Select(te => te as ISentence)
+                .OfType<ISentence>()
                 .OrderByDescending(s => s?.Value.Count(se => se is IWord));
         }
 
@@ -31,11 +31,11 @@ namespace TextHandler.Tools
             CheckArgumentsForExceptions(text, wordLength);
 
             return text.Value
-                .Select(te => te as ISentence)
-                .Where(s => (s?.Value.Last() as IPunctuationMark)?.Value == '?')
-                .Select(s => s?.Value
-                    .Where(e => (e as IWord)?.Value.Count() == wordLength)
-                    .Select(w => w as IWord)
+                .OfType<ISentence>()
+                .Where(s => (s.Value.Last() as IPunctuationMark)?.Value == '?')
+                .Select(s => s.Value
+                    .OfType<IWord>()
+                    .Where(e => e.Value.Count() == wordLength)
                     .Distinct())
                 .Aggregate((currentSentence, nextSentence) => currentSentence
                     .Union(nextSentence));
@@ -48,12 +48,12 @@ namespace TextHandler.Tools
             var consonants = "bcdfghjklmnpqrstvwxz".ToList();
 
             var sentences = text.Value
-                .Select(te => te as ISentence)
-                .Select(s => s?.Value
+                .OfType<ISentence>()
+                .Select(s => s.Value
                     .Where(e =>
-                    e is IPunctuationMark or IPunctuationSymbol or IWhiteSpace|| 
-                    !(((IWord) e).Value.Count() == wordLength && 
-                     consonants.Contains(char.ToLower(((ILetter) ((IWord) e).Value.First()).Value)))));
+                        e is IPunctuationMark or IPunctuationSymbol or IWhiteSpace ||
+                !(((IWord)e).Value.Count() == wordLength &&
+                  consonants.Contains(char.ToLower(((ILetter)((IWord)e).Value.First()).Value)))));
 
             var newText = new Text();
 
@@ -85,9 +85,6 @@ namespace TextHandler.Tools
                 {
                     switch (sentenceElementsList.First())
                     {
-                        case IPunctuationMark or IPunctuationSymbol or IWhiteSpace:
-                            sentenceElementsList.RemoveAt(0);
-                            break;
                         case IWord word:
                         {
                             char firstCharacter = ((ILetter)word.Value.First()).Value;
@@ -102,6 +99,9 @@ namespace TextHandler.Tools
 
                             break;
                         }
+                        default:
+                            sentenceElementsList.RemoveAt(0);
+                            break;
                     }
 
                     CreateNewText(sentenceElementsList);
