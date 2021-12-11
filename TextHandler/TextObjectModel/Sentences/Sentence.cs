@@ -5,7 +5,6 @@ using System.Linq;
 using TextHandler.TextObjectModel.Letters;
 using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
-using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
 namespace TextHandler.TextObjectModel.Sentences
@@ -34,28 +33,7 @@ namespace TextHandler.TextObjectModel.Sentences
 
         public string GetStringRepresentation()
         {
-            string stringRepresentation = string.Empty;
-
-            foreach (var sentenceElement in Value)
-            {
-                switch (sentenceElement)
-                {
-                    case IWord word:
-                        stringRepresentation += word.GetStringRepresentation();
-                        break;
-                    case IPunctuationMark punctuationMark:
-                        stringRepresentation += punctuationMark.GetStringRepresentation();
-                        break;
-                    case IPunctuationSymbol punctuationSymbol:
-                        stringRepresentation += punctuationSymbol.GetStringRepresentation();
-                        break;
-                    case IWhiteSpace whiteSpace:
-                        stringRepresentation += whiteSpace.GetStringRepresentation();
-                        break;
-                }
-            }
-
-            return stringRepresentation;
+            return Value.Aggregate(string.Empty, (current, sentenceElement) => current + sentenceElement.GetStringRepresentation());
         }
 
         private void Verify()

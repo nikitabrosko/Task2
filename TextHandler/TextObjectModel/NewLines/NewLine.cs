@@ -26,7 +26,7 @@ namespace TextHandler.TextObjectModel.NewLines
 
         public string GetStringRepresentation()
         {
-            return Value.Aggregate(string.Empty, (current, character) => current + character);
+            return string.Join(string.Empty, Value);
         }
 
         private void Verify()

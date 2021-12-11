@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using TextHandler.TextObjectModel.NewLines;
 using TextHandler.TextObjectModel.Sentences;
 
@@ -18,22 +19,7 @@ namespace TextHandler.TextObjectModel.Texts
 
         public string GetStringRepresentation()
         {
-            var stringRepresentation = string.Empty;
-
-            foreach (var textElement in Value)
-            {
-                switch (textElement)
-                {
-                    case ISentence sentence:
-                        stringRepresentation += sentence.GetStringRepresentation();
-                        break;
-                    case INewLine newLine:
-                        stringRepresentation += newLine.GetStringRepresentation();
-                        break;
-                }
-            }
-
-            return stringRepresentation;
+            return Value.Aggregate(string.Empty, (current, textElement) => current + textElement.GetStringRepresentation());
         }
     }
 }
