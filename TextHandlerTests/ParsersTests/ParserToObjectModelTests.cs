@@ -18,20 +18,6 @@ namespace TextHandlerTests.ParsersTests
     public class ParserToObjectModelTests
     {
         [TestMethod]
-        public void Debug()
-        {
-            var pathFrom = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\file1.txt";
-            var pathTo = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\file2.txt";
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(pathFrom));
-            var textObject = parserToObjectModel.ReadFile();
-
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(pathTo));
-            parserFromObjectModel.WriteInFile(textObject);
-
-            string str = "1";
-        }
-
-        [TestMethod]
         public void TestCharacterIsDotMethodWithValidParameters()
         {
             var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
