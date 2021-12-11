@@ -17,4 +17,8 @@
     <ProjectReference Include="..\TextHandler\TextHandler.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FilesForTestsRepository\" />
+  </ItemGroup>
+
 </Project>

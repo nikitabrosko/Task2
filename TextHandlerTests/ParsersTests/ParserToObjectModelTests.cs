@@ -20,7 +20,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsDotMethodWithValidParameters()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file...");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
@@ -44,7 +44,7 @@ namespace TextHandlerTests.ParsersTests
         [DataRow('\'')]
         public void TestCharacterIsPunctuationInWordMethodWithValidParameters(char character)
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"Ain{character}t.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedWord = new Word(new IWordElement[]
@@ -67,7 +67,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterComma()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New, file.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationMark = new PunctuationMark(',');
@@ -83,7 +83,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMark()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationMark = new PunctuationMark('?');
@@ -100,7 +100,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterQuestionMarkAndExclamationMark()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?!");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
@@ -123,7 +123,7 @@ namespace TextHandlerTests.ParsersTests
         [DataRow('\r')]
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterNewLine(char character)
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"{character}New file.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedNewLineObject = new NewLine(character);
@@ -139,7 +139,7 @@ namespace TextHandlerTests.ParsersTests
         public void TestCharacterIsPunctuationMethodWithValidParametersParameterWhiteSpace()
         {
             var character = ' ';
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForTestingParserIsDotTest.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"New{character}file.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var expectedWhiteSpaceObject = new WhiteSpace(character);

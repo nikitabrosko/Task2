@@ -20,7 +20,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestWithValidParametersTwoWordsAndTwoPunctuationMarks()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForParserFromObjectModelTestClass.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
 
             var sentenceFirst = new Sentence(new ISentenceElement[]
             {
@@ -61,7 +61,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestWithValidParametersThreeWordsAndOnePunctuationSymbol()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForParserFromObjectModelTestClass.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
 
             var sentenceFirst = new Sentence(new ISentenceElement[]
             {
@@ -116,7 +116,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestWithValidParametersTwoWordsAndOnePunctuationSymbol()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForParserFromObjectModelTestClass.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
 
             var sentenceFirst = new Sentence(new ISentenceElement[]
             {
@@ -161,7 +161,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestWithValidParametersNewLine()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForParserFromObjectModelTestClass.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
 
             var sentenceFirst = new Sentence(new ISentenceElement[]
             {
@@ -254,7 +254,7 @@ namespace TextHandlerTests.ParsersTests
         [TestMethod]
         public void TestWithInvalidParametersTextIsNull()
         {
-            var path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\FileForParserFromObjectModelTestClass.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
             Text textObject = null;
             var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
 

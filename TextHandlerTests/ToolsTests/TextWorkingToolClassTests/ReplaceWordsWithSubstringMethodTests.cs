@@ -95,7 +95,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             textObject.Append(sentenceFirst);
             textObject.Append(sentenceSecond);
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
@@ -157,7 +157,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             Text textObject = null;
             var sentenceIndex = 1;
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
@@ -224,7 +224,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
             var textObject = new Text();
             textObject.Append(sentence);
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
@@ -355,7 +355,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var sentenceIndex = 1;
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
@@ -424,7 +424,7 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             var sentenceIndex = 0;
 
-            string path = @"F:\GitHub\Task2\TextHandler\TextHandler\FilesForDebug\SubstringTextFile.txt";
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
             var parser = new ParserToObjectModel(new StreamReader(path));
             var substring =
