@@ -1,9 +1,7 @@
 ﻿namespace TextHandler.TextObjectModel
 {
-    public interface ITextModelElement<T>
+    public interface ITextModelElement<T> : IGetStringRepresentationAble
     {
         T Value { get; }
-
-        string GetStringRepresentation();
     }
 }
