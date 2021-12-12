@@ -64,6 +64,11 @@ namespace TextHandler.Parsers
 
         private void CharacterIsTabulation()
         {
+            if (_wordBuffer.Count != 0)
+            {
+                AddWordToSentenceBufferAndClearWordBuffer();
+            }
+
             if (_sentenceBuffer.Count != 0)
             {
                 CharacterIsWhiteSpace(' ');

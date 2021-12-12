@@ -49,6 +49,29 @@ namespace TextHandlerTests.ParsersTests
         }
 
         [TestMethod]
+        public void TestCharacterIsTabulationMethodWithValidParameters()
+        {
+            string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
+            File.WriteAllText(path, "New\tfile...");
+
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
+            File.Delete(path);
+
+            var expectedCharacter = " ";
+            var actualCharacter = (textObject.Value.First() as ISentence)?.Value.ToList()
+                .Find(el => el is IWhiteSpace) as IWhiteSpace;
+
+            Assert.AreEqual(expectedCharacter, actualCharacter.GetStringRepresentation());
+        }
+
+        [TestMethod]
         [DataRow('-')]
         [DataRow('\'')]
         public void TestCharacterIsPunctuationInWordMethodWithValidParameters(char character)
