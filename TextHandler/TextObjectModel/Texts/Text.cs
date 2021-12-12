@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using TextHandler.TextObjectModel.NewLines;
-using TextHandler.TextObjectModel.Sentences;
 
 namespace TextHandler.TextObjectModel.Texts
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TextHandler.TextObjectModel.Sentences;
 
 namespace TextHandler.TextObjectModel.Texts
 {

@@ -17,17 +17,27 @@ namespace TextHandlerConsole
         {
             try
             {
-                var pathOfInputFile = GetFilePath("inputFilePath");
-                var parserToObjectModel = new ParserToObjectModel(new StreamReader(pathOfInputFile));
-                var textObject = parserToObjectModel.ReadFile();
-                Console.WriteLine("Read from input file succeed!");
+                var pathOfInputFile = GetValueFromConfig("inputFilePath");
 
-                var pathOfOutputFile = GetFilePath("outputFilePath");
-                var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(pathOfOutputFile));
-                parserFromObjectModel.WriteInFile(textObject);
-                Console.WriteLine("Print in output file succeed!");
+                IText textObject;
 
-                var pathOfTextWorkingToolFile = GetFilePath("textWorkingToolFilePath");
+                using (var streamReader = new StreamReader(pathOfInputFile))
+                {
+                    var parserToObjectModel = new ParserToObjectModel(streamReader);
+                    textObject = parserToObjectModel.ReadFile();
+                    Console.WriteLine("Read from input file succeed!");
+                }
+
+                var pathOfOutputFile = GetValueFromConfig("outputFilePath");
+
+                using (var streamWriter = new StreamWriter(pathOfOutputFile))
+                {
+                    var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+                    parserFromObjectModel.WriteInFile(textObject);
+                    Console.WriteLine("Print in output file succeed!");
+                }
+
+                var pathOfTextWorkingToolFile = GetValueFromConfig("textWorkingToolFilePath");
 
                 using (var streamWriter = new StreamWriter(pathOfTextWorkingToolFile))
                 {
@@ -43,25 +53,18 @@ namespace TextHandlerConsole
                     streamWriter.WriteLine(Environment.NewLine);
                     Console.WriteLine("Print third method in TextWorkingTool file succeed!");
 
-                    var pathToSubstringFile = GetFilePath("substringFilePath");
+                    var pathToSubstringFile = GetValueFromConfig("substringFilePath");
 
-                    try
-                    {
-                        var substring = GetSubstringFromFile(pathToSubstringFile);
-                        PrintReplaceWordsWithSubstringInFile(textObject, 0, substring, 5, streamWriter);
-                        Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
-                    }
-                    catch (ArgumentException message)
-                    {
-                        Console.WriteLine(message);
-                    }
+                    var substring = GetSubstringFromFile(pathToSubstringFile);
+                    PrintReplaceWordsWithSubstringInFile(textObject, 0, substring, 5, streamWriter);
+                    Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
                 }
             }
             catch (ConfigurationErrorsException)
             {
                 Console.WriteLine("Something went wrong with configuration files");
             }
-            catch (ArgumentException message)
+            catch (Exception message)
             {
                 Console.WriteLine(message);
             }
@@ -116,28 +119,17 @@ namespace TextHandlerConsole
             }
         }
 
-        private static string GetFilePath(string key)
+        private static string GetValueFromConfig(string key)
         {
-            try
-            {
-                var appSettings = ConfigurationManager.AppSettings;
-                var result = appSettings[key];
+            var appSettings = ConfigurationManager.AppSettings;
+            var result = appSettings[key];
 
-                if (result is null)
-                {
-                    throw new ArgumentException("wrong path to file!");
-                }
+            if (result is null)
+            {
+                throw new ArgumentException("wrong key!");
+            }
 
-                return result;
-            }
-            catch (ConfigurationErrorsException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
+            return result;
         }
     }
 }
