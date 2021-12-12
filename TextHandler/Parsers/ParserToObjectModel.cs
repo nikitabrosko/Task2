@@ -38,7 +38,6 @@ namespace TextHandler.Parsers
             }
             finally
             {
-                _textReader.Dispose();
                 _wordBuffer.Clear();
                 _sentenceBuffer.Clear();
                 _text = new Text();

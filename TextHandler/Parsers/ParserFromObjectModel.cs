@@ -15,18 +15,6 @@ namespace TextHandler.Parsers
 
         public void WriteInFile(IText text)
         {
-            try
-            {
-                WriteNext(text);
-            }
-            finally
-            {
-                _textWriter.Dispose();
-            }
-        }
-
-        private void WriteNext(IText text)
-        {
             if (text is null)
             {
                 throw new ArgumentNullException(nameof(text));
@@ -34,8 +22,13 @@ namespace TextHandler.Parsers
 
             foreach (var textElement in text.Value)
             {
-                _textWriter.Write(textElement.GetStringRepresentation());
+                WriteNext(textElement.GetStringRepresentation());
             }
+        }
+
+        private void WriteNext(string textToWrite)
+        {
+            _textWriter.Write(textToWrite);
         }
     }
 }
