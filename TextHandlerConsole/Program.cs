@@ -15,44 +15,55 @@ namespace TextHandlerConsole
     {
         private static void Main()
         {
-            var pathOfInputFile = GetFilePath("inputFilePath");
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(pathOfInputFile));
-            var textObject = parserToObjectModel.ReadFile();
-            Console.WriteLine("Read from input file succeed!");
-
-            var pathOfOutputFile = GetFilePath("outputFilePath");
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(pathOfOutputFile));
-            parserFromObjectModel.WriteInFile(textObject);
-            Console.WriteLine("Print in output file succeed!");
-
-            var pathOfTextWorkingToolFile = GetFilePath("textWorkingToolFilePath");
-
-            using (var streamWriter = new StreamWriter(pathOfTextWorkingToolFile))
+            try
             {
-                PrintSentencesWithOrderByNumberOfWordsInFile(textObject, streamWriter);
-                streamWriter.WriteLine(Environment.NewLine);
-                Console.WriteLine("Print first method in TextWorkingTool file succeed!");
+                var pathOfInputFile = GetFilePath("inputFilePath");
+                var parserToObjectModel = new ParserToObjectModel(new StreamReader(pathOfInputFile));
+                var textObject = parserToObjectModel.ReadFile();
+                Console.WriteLine("Read from input file succeed!");
 
-                PrintFindWordsInQuestionSentencesInFile(textObject, 5, streamWriter);
-                streamWriter.WriteLine(Environment.NewLine);
-                Console.WriteLine("Print second method in TextWorkingTool file succeed!");
+                var pathOfOutputFile = GetFilePath("outputFilePath");
+                var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(pathOfOutputFile));
+                parserFromObjectModel.WriteInFile(textObject);
+                Console.WriteLine("Print in output file succeed!");
 
-                PrintRemoveWordsThatStartsWithConsonantLetterInFile(textObject, 5, streamWriter);
-                streamWriter.WriteLine(Environment.NewLine);
-                Console.WriteLine("Print third method in TextWorkingTool file succeed!");
+                var pathOfTextWorkingToolFile = GetFilePath("textWorkingToolFilePath");
 
-                var pathToSubstringFile = GetFilePath("substringFilePath");
-
-                try
+                using (var streamWriter = new StreamWriter(pathOfTextWorkingToolFile))
                 {
-                    var substring = GetSubstringFromFile(pathToSubstringFile);
-                    PrintReplaceWordsWithSubstringInFile(textObject, 0, substring, 5, streamWriter);
-                    Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
+                    PrintSentencesWithOrderByNumberOfWordsInFile(textObject, streamWriter);
+                    streamWriter.WriteLine(Environment.NewLine);
+                    Console.WriteLine("Print first method in TextWorkingTool file succeed!");
+
+                    PrintFindWordsInQuestionSentencesInFile(textObject, 5, streamWriter);
+                    streamWriter.WriteLine(Environment.NewLine);
+                    Console.WriteLine("Print second method in TextWorkingTool file succeed!");
+
+                    PrintRemoveWordsThatStartsWithConsonantLetterInFile(textObject, 5, streamWriter);
+                    streamWriter.WriteLine(Environment.NewLine);
+                    Console.WriteLine("Print third method in TextWorkingTool file succeed!");
+
+                    var pathToSubstringFile = GetFilePath("substringFilePath");
+
+                    try
+                    {
+                        var substring = GetSubstringFromFile(pathToSubstringFile);
+                        PrintReplaceWordsWithSubstringInFile(textObject, 0, substring, 5, streamWriter);
+                        Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
+                    }
+                    catch (ArgumentException message)
+                    {
+                        Console.WriteLine(message);
+                    }
                 }
-                catch (ArgumentException message)
-                {
-                    Console.WriteLine(message);
-                }
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Something went wrong with configuration files");
+            }
+            catch (ArgumentException message)
+            {
+                Console.WriteLine(message);
             }
         }
 
@@ -112,11 +123,20 @@ namespace TextHandlerConsole
                 var appSettings = ConfigurationManager.AppSettings;
                 var result = appSettings[key];
 
+                if (result is null)
+                {
+                    throw new ArgumentException("wrong path to file!");
+                }
+
                 return result;
             }
             catch (ConfigurationErrorsException)
             {
-                return "Something went wrong with configuration!";
+                throw;
+            }
+            catch (ArgumentException)
+            {
+                throw;
             }
         }
     }

@@ -1,7 +1,7 @@
 Aenean venenatis neque eu nulla pharetra, vitae euismod mauris iaculis.
 Ut nisl urna, vulputate nec lorem et, fringilla vehicula orci.
  Nulla massa ipsum, vehicula et nunc eget, laoreet feugiat neque?
- Sed tristique eros urna, vitae varius dui lacinia vel.
+Sed tristique eros urna, vitae varius dui lacinia vel.
 Etiam aliquam felis ante, eget cursus diam rutrum vitae.
 Lorem ipsum dolor sit-amet, consectetur adipiscing elit...
  Sed et ultricies arcu, id blandit mauris.
@@ -18,7 +18,7 @@ Ipsum  sit-amet, consectetur adipiscing elit...Aliquam non accumsan .Sed tristiq
 
 
 Lorem ipsum. Lorem ipsum. Lorem ipsum. sit-amet, consectetur adipiscing elit... Aliquam non accumsan justo.
- Sed tristique eros urna, vitae varius dui lacinia vel. Integer mattis massa eu blandit facilisis?
+Sed tristique eros urna, vitae varius dui lacinia vel. Integer mattis massa eu blandit facilisis?
 Aenean venenatis neque eu nulla pharetra, vitae euismod mauris iaculis. Sed et ultricies arcu, id blandit mauris.
 Ut nisl urna, vulputate nec lorem et, fringilla vehicula orci. Nulla massa ipsum, vehicula et nunc eget, laoreet feugiat neque?
 Etiam aliquam felis ante, eget cursus diam rutrum vitae. Curabitur a iaculis lorem. Proin eu tristique ligula?!

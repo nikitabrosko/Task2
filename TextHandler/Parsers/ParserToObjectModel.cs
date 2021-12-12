@@ -63,6 +63,14 @@ namespace TextHandler.Parsers
             }
         }
 
+        private void CharacterIsTabulation()
+        {
+            if (_sentenceBuffer.Count != 0)
+            {
+                CharacterIsWhiteSpace(' ');
+            }
+        }
+
         private void CharacterIsPunctuationOrSpelling(char character)
         {
             switch (character)
@@ -83,7 +91,7 @@ namespace TextHandler.Parsers
                     _wordBuffer.Add(new SpellingMark(character));
                     break;
                 case '\t':
-                    CharacterIsWhiteSpace(' ');
+                    CharacterIsTabulation();
                     break;
                 case '\n':
                 case '\r':
