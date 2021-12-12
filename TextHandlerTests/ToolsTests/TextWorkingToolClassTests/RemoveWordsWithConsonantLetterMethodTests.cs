@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Letters;

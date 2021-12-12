@@ -9,6 +9,7 @@ using TextHandler.TextObjectModel.Punctuations.PunctuationMarks;
 using TextHandler.TextObjectModel.Punctuations.PunctuationSymbols;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.SpellingMarks;
+using TextHandler.TextObjectModel.Texts;
 using TextHandler.TextObjectModel.WhiteSpaces;
 using TextHandler.TextObjectModel.Words;
 
@@ -22,7 +23,17 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file...");
-            var parser = new ParserToObjectModel(new StreamReader(path));
+
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+            
+            File.Delete(path);
+
             var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark('.'),
@@ -30,8 +41,6 @@ namespace TextHandlerTests.ParsersTests
                 new PunctuationMark('.')
             });
 
-            var textObject = parser.ReadFile();
-            File.Delete(path);
             var actualPunctuationSymbol = (textObject.Value.First() as ISentence)?.Value.ToList()
                 .Find(el => el is IPunctuationSymbol) as IPunctuationSymbol;
 
@@ -46,7 +55,17 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"Ain{character}t.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
+
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
+            File.Delete(path);
+
             var expectedWord = new Word(new IWordElement[]
             {
                 new Letter('A'),
@@ -56,8 +75,6 @@ namespace TextHandlerTests.ParsersTests
                 new Letter('t')
             });
 
-            var textObject = parser.ReadFile();
-            File.Delete(path);
             var actualWord = (textObject.Value.First() as ISentence)?.Value.First() as IWord;
 
             Assert.AreEqual(expectedWord.GetStringRepresentation(),
@@ -69,11 +86,17 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New, file.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var expectedPunctuationMark = new PunctuationMark(',');
 
-            var textObject = parser.ReadFile();
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
             File.Delete(path);
+            var expectedPunctuationMark = new PunctuationMark(',');
             var actualPunctuationMark = (textObject.Value.First() as ISentence)?.Value.ToList()[1] as IPunctuationMark;
 
             Assert.AreEqual(expectedPunctuationMark.GetStringRepresentation(),
@@ -85,11 +108,17 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var expectedPunctuationMark = new PunctuationMark('?');
 
-            var textObject = parser.ReadFile();
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
             File.Delete(path);
+            var expectedPunctuationMark = new PunctuationMark('?');
             var actualPunctuationMark = (textObject.Value.First() as ISentence)?.Value.ToList()
                 .Find(el => el is IPunctuationMark) as IPunctuationMark;
 
@@ -102,15 +131,23 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, "New file?!");
-            var parser = new ParserToObjectModel(new StreamReader(path));
+
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
+            File.Delete(path);
+
             var expectedPunctuationSymbol = new PunctuationSymbol(new IPunctuationMark[]
             {
                 new PunctuationMark('?'),
                 new PunctuationMark('!')
             });
 
-            var textObject = parser.ReadFile();
-            File.Delete(path);
             var actualPunctuationSymbol = (textObject.Value.First() as ISentence)?.Value.ToList()
                 .Find(el => el is IPunctuationSymbol) as IPunctuationSymbol;
 
@@ -125,11 +162,17 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"{character}New file.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var expectedNewLineObject = new NewLine(character);
 
-            var textObject = parser.ReadFile();
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
             File.Delete(path);
+            var expectedNewLineObject = new NewLine(character);
             var actualNewLineObject = textObject.Value.First() as INewLine;
 
             Assert.AreEqual(expectedNewLineObject.GetStringRepresentation(), actualNewLineObject?.GetStringRepresentation());
@@ -141,11 +184,17 @@ namespace TextHandlerTests.ParsersTests
             var character = ' ';
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForTestingParserIsDotTest.txt";
             File.WriteAllText(path, $"New{character}file.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var expectedWhiteSpaceObject = new WhiteSpace(character);
 
-            var textObject = parser.ReadFile();
+            IText textObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                textObject = parser.ReadFile();
+            }
+
             File.Delete(path);
+            var expectedWhiteSpaceObject = new WhiteSpace(character);
             var actualWhiteSpaceObject = (textObject.Value.First() as ISentence).Value.ToList()
                 .Find(se => se is IWhiteSpace) as IWhiteSpace;
 

@@ -48,11 +48,19 @@ namespace TextHandlerTests.ParsersTests
             var expectedTextObject = new Text();
             expectedTextObject.Append(sentenceFirst);
 
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
-            parserFromObjectModel.WriteInFile(expectedTextObject);
+            using (var streamWriter = new StreamWriter(path))
+            {
+                var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+                parserFromObjectModel.WriteInFile(expectedTextObject);
+            }
 
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(path));
-            var actualTextObject = parserToObjectModel.ReadFile();
+            IText actualTextObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parserToObjectModel = new ParserToObjectModel(streamReader);
+                actualTextObject = parserToObjectModel.ReadFile();
+            }
 
             Assert.IsTrue(CompareTwoTextsForEqual(expectedTextObject, actualTextObject));
             File.Delete(path);
@@ -103,11 +111,19 @@ namespace TextHandlerTests.ParsersTests
             var expectedTextObject = new Text();
             expectedTextObject.Append(sentenceFirst);
 
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
-            parserFromObjectModel.WriteInFile(expectedTextObject);
+            using (var streamWriter = new StreamWriter(path))
+            {
+                var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+                parserFromObjectModel.WriteInFile(expectedTextObject);
+            }
 
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(path));
-            var actualTextObject = parserToObjectModel.ReadFile();
+            IText actualTextObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parserToObjectModel = new ParserToObjectModel(streamReader);
+                actualTextObject = parserToObjectModel.ReadFile();
+            }
 
             Assert.IsTrue(CompareTwoTextsForEqual(expectedTextObject, actualTextObject));
             File.Delete(path);
@@ -148,11 +164,19 @@ namespace TextHandlerTests.ParsersTests
             var expectedTextObject = new Text();
             expectedTextObject.Append(sentenceFirst);
 
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
-            parserFromObjectModel.WriteInFile(expectedTextObject);
+            using (var streamWriter = new StreamWriter(path))
+            {
+                var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+                parserFromObjectModel.WriteInFile(expectedTextObject);
+            }
 
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(path));
-            var actualTextObject = parserToObjectModel.ReadFile();
+            IText actualTextObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parserToObjectModel = new ParserToObjectModel(streamReader);
+                actualTextObject = parserToObjectModel.ReadFile();
+            }
 
             Assert.IsTrue(CompareTwoTextsForEqual(expectedTextObject, actualTextObject));
             File.Delete(path);
@@ -241,11 +265,19 @@ namespace TextHandlerTests.ParsersTests
             expectedTextObject.Append(newLine);
             expectedTextObject.Append(sentenceSecond);
 
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
-            parserFromObjectModel.WriteInFile(expectedTextObject);
+            using (var streamWriter = new StreamWriter(path))
+            {
+                var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+                parserFromObjectModel.WriteInFile(expectedTextObject);
+            }
 
-            var parserToObjectModel = new ParserToObjectModel(new StreamReader(path));
-            var actualTextObject = parserToObjectModel.ReadFile();
+            IText actualTextObject;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parserToObjectModel = new ParserToObjectModel(streamReader);
+                actualTextObject = parserToObjectModel.ReadFile();
+            }
 
             Assert.IsTrue(CompareTwoTextsForEqual(expectedTextObject, actualTextObject));
             File.Delete(path);
@@ -256,9 +288,14 @@ namespace TextHandlerTests.ParsersTests
         {
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\FileForParserFromObjectModelTestClass.txt";
             Text textObject = null;
-            var parserFromObjectModel = new ParserFromObjectModel(new StreamWriter(path));
 
-            Assert.ThrowsException<ArgumentNullException>(() => parserFromObjectModel.WriteInFile(textObject));
+            using (var streamWriter = new StreamWriter(path))
+            {
+                var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+
+                Assert.ThrowsException<ArgumentNullException>(() => parserFromObjectModel.WriteInFile(textObject));
+            }
+
             File.Delete(path);
         }
 

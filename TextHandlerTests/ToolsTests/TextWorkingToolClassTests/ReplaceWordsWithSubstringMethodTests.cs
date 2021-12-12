@@ -97,9 +97,16 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var substring =
-                (parser.ReadFile().Value.First() as ISentence)?.Value;
+
+            IEnumerable<ISentenceElement> substring;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                substring =
+                    (parser.ReadFile().Value.First() as ISentence)?.Value;
+            }
+            
             File.Delete(path);
 
             var expectedResult = new Text();
@@ -159,9 +166,16 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var substring =
-                (parser.ReadFile().Value.First() as ISentence)?.Value;
+
+            IEnumerable<ISentenceElement> substring;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                substring =
+                    (parser.ReadFile().Value.First() as ISentence)?.Value;
+            }
+
             File.Delete(path);
 
             var wordLength = 5;
@@ -226,9 +240,16 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var substring =
-                (parser.ReadFile().Value.First() as ISentence)?.Value;
+
+            IEnumerable<ISentenceElement> substring;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                substring =
+                    (parser.ReadFile().Value.First() as ISentence)?.Value;
+            }
+
             File.Delete(path);
 
             var wordLength = 5;
@@ -357,9 +378,16 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var substring =
-                (parser.ReadFile().Value.First() as ISentence)?.Value;
+
+            IEnumerable<ISentenceElement> substring;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                substring =
+                    (parser.ReadFile().Value.First() as ISentence)?.Value;
+            }
+
             File.Delete(path);
 
             Assert.ThrowsException<ArgumentException>(() =>
@@ -426,9 +454,16 @@ namespace TextHandlerTests.ToolsTests.TextWorkingToolClassTests
 
             string path = @"F:\GitHub\Task2\TextHandler\TextHandlerTests\FilesForTestsRepository\SubstringTextFile.txt";
             File.WriteAllText(path, "Lorem ipsum.");
-            var parser = new ParserToObjectModel(new StreamReader(path));
-            var substring =
-                (parser.ReadFile().Value.First() as ISentence)?.Value;
+
+            IEnumerable<ISentenceElement> substring;
+
+            using (var streamReader = new StreamReader(path))
+            {
+                var parser = new ParserToObjectModel(streamReader);
+                substring =
+                    (parser.ReadFile().Value.First() as ISentence)?.Value;
+            }
+
             File.Delete(path);
 
             Assert.ThrowsException<ArgumentException>(() =>
