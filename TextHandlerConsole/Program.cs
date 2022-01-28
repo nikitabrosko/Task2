@@ -8,6 +8,7 @@ using System.Linq;
 using TextHandler.TextObjectModel;
 using TextHandler.TextObjectModel.Sentences;
 using TextHandler.TextObjectModel.Texts;
+using TextHandlerConsole.Enums;
 
 namespace TextHandlerConsole
 {
@@ -17,47 +18,29 @@ namespace TextHandlerConsole
         {
             try
             {
-                var pathOfInputFile = GetValueFromConfig("inputFilePath");
 
-                IText textObject;
-
-                using (var streamReader = new StreamReader(pathOfInputFile))
+                while (true)
                 {
-                    var parserToObjectModel = new ParserToObjectModel(streamReader);
-                    textObject = parserToObjectModel.ReadFile();
-                    Console.WriteLine("Read from input file succeed!");
-                }
+                    Console.WriteLine("Choose an option: " +
+                                      "\n1 - Read input file" +
+                                      "\n2 - Write in output file" +
+                                      "\n3 - Go to the Tools");
 
-                var pathOfOutputFile = GetValueFromConfig("outputFilePath");
+                    var consoleOption = ChooseConsoleOption(Console.ReadKey().Key);
+                    var pathToInputFile = GetValueFromConfig("inputFilePath");
+                    IText textObject = new Text();
+                    var pathToOutputFile = GetValueFromConfig("outputFilePath");
 
-                using (var streamWriter = new StreamWriter(pathOfOutputFile))
-                {
-                    var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
-                    parserFromObjectModel.WriteInFile(textObject);
-                    Console.WriteLine("Print in output file succeed!");
-                }
+                    var pathToTextWorkingToolFile = GetValueFromConfig("textWorkingToolFilePath");
 
-                var pathOfTextWorkingToolFile = GetValueFromConfig("textWorkingToolFilePath");
+                    Switch(consoleOption, pathToInputFile, pathToOutputFile, textObject, pathToTextWorkingToolFile);
 
-                using (var streamWriter = new StreamWriter(pathOfTextWorkingToolFile))
-                {
-                    PrintSentencesWithOrderByNumberOfWordsInFile(textObject, streamWriter);
-                    streamWriter.WriteLine(Environment.NewLine);
-                    Console.WriteLine("Print first method in TextWorkingTool file succeed!");
+                    Console.WriteLine("Do you want to continue?\n1 - Yes\n2 - No");
 
-                    PrintFindWordsInQuestionSentencesInFile(textObject, 5, streamWriter);
-                    streamWriter.WriteLine(Environment.NewLine);
-                    Console.WriteLine("Print second method in TextWorkingTool file succeed!");
-
-                    PrintRemoveWordsThatStartsWithConsonantLetterInFile(textObject, 5, streamWriter);
-                    streamWriter.WriteLine(Environment.NewLine);
-                    Console.WriteLine("Print third method in TextWorkingTool file succeed!");
-
-                    var pathToSubstringFile = GetValueFromConfig("substringFilePath");
-
-                    var substring = GetSubstringFromFile(pathToSubstringFile);
-                    PrintReplaceWordsWithSubstringInFile(textObject, 0, substring, 5, streamWriter);
-                    Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
+                    if (Console.ReadKey().Key is ConsoleKey.D2)
+                    {
+                        break;
+                    }
                 }
             }
             catch (ConfigurationErrorsException)
@@ -68,6 +51,133 @@ namespace TextHandlerConsole
             {
                 Console.WriteLine(message);
             }
+
+            static void Switch(ConsoleOption consoleOption, string pathToInputFile, 
+                string pathToOutputFile, IText textObject, string pathToTextWorkingToolFile)
+            {
+                switch (consoleOption)
+                {
+                    case ConsoleOption.ReadInputFile:
+                        textObject = HandleReadInputFile(pathToInputFile);
+                        break;
+                    case ConsoleOption.WriteInOutputFile:
+                        HandleWriteInOutputFile(pathToOutputFile, textObject);
+                        break;
+                    case ConsoleOption.Tools:
+                        Console.WriteLine("Choose a tool: " +
+                                          "\n1 - Print in file all sentences with ordering by number of words" +
+                                          "\n2 - Print all words with input word length in question sentences" +
+                                          "\n3 - Print text with removing all words with input length that starts with consonant letter" +
+                                          "\n4 - Print text replacing all words with input length to substring");
+                        var toolOption = ChooseToolsOption(Console.ReadKey().Key);
+                        HandleTools(toolOption, pathToTextWorkingToolFile, textObject);
+                        break;
+                }
+            }
+        }
+
+        private static IText HandleReadInputFile(string pathToInputFile)
+        {
+            using var streamReader = new StreamReader(pathToInputFile);
+            var parserToObjectModel = new ParserToObjectModel(streamReader);
+
+            Console.WriteLine("Read from input file succeed!");
+
+            return parserToObjectModel.ReadFile();
+        }
+
+        private static void HandleWriteInOutputFile(string pathToOutputFile, IText textObject)
+        {
+            using var streamWriter = new StreamWriter(pathToOutputFile);
+            var parserFromObjectModel = new ParserFromObjectModel(streamWriter);
+
+            parserFromObjectModel.WriteInFile(textObject);
+
+            Console.WriteLine("Print in output file succeed!");
+        }
+
+        private static void HandleTools(ToolOption toolOption, string pathToTextWorkingToolFile, IText textObject)
+        {
+            try
+            {
+                using var streamWriter = new StreamWriter(pathToTextWorkingToolFile);
+
+                switch (toolOption)
+                {
+                    case ToolOption.FirstOption:
+                        PrintSentencesWithOrderByNumberOfWordsInFile(textObject, streamWriter);
+                        streamWriter.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Print first method in TextWorkingTool file succeed!");
+                        break;
+                    case ToolOption.SecondOption:
+                        Console.WriteLine("Write the word length: ");
+                        var wordLengthForSecondOption = int.Parse(Console.ReadLine() ?? throw new FormatException());
+                        PrintFindWordsInQuestionSentencesInFile(textObject, wordLengthForSecondOption, streamWriter);
+                        streamWriter.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Print second method in TextWorkingTool file succeed!");
+                        break;
+                    case ToolOption.ThirdOption:
+                        Console.WriteLine("Write the word length: ");
+                        var wordLengthForThirdOption = int.Parse(Console.ReadLine() ?? throw new FormatException());
+                        PrintRemoveWordsThatStartsWithConsonantLetterInFile(textObject, wordLengthForThirdOption, streamWriter);
+                        streamWriter.WriteLine(Environment.NewLine);
+                        Console.WriteLine("Print third method in TextWorkingTool file succeed!");
+                        break;
+                    case ToolOption.FourthOption:
+                        var pathToSubstringFile = GetValueFromConfig("substringFilePath");
+                        var substring = GetSubstringFromFile(pathToSubstringFile);
+                        Console.WriteLine("Write the word length: ");
+                        var wordLengthForFourthOption = int.Parse(Console.ReadLine() ?? throw new FormatException());
+                        Console.WriteLine("Write the sentence index: ");
+                        var sentenceIndex = int.Parse(Console.ReadLine() ?? throw new FormatException());
+                        PrintReplaceWordsWithSubstringInFile(textObject, sentenceIndex, substring, wordLengthForFourthOption, streamWriter);
+                        Console.WriteLine("Print fourth method in TextWorkingTool file succeed!");
+                        break;
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Something went wrong with input format!");
+                HandleTools(toolOption, pathToTextWorkingToolFile, textObject);
+            }
+        }
+
+        private static ConsoleOption ChooseConsoleOption(ConsoleKey key)
+        {
+            switch (key)
+            {
+                case ConsoleKey.D1:
+                    return ConsoleOption.ReadInputFile;
+                case ConsoleKey.D2:
+                    return ConsoleOption.WriteInOutputFile;
+                case ConsoleKey.D3:
+                    return ConsoleOption.Tools;
+                default:
+                    Console.WriteLine("Wrong input key!");
+                    break;
+            }
+
+            return default;
+        }
+
+        private static ToolOption ChooseToolsOption(ConsoleKey key)
+        {
+            switch (key)
+            {
+                case ConsoleKey.D1:
+                    return ToolOption.FirstOption;
+                case ConsoleKey.D2:
+                    return ToolOption.SecondOption;
+                case ConsoleKey.D3:
+                    return ToolOption.ThirdOption;
+                case ConsoleKey.D4:
+                    return ToolOption.FourthOption;
+                default:
+                    Console.WriteLine("Wrong input key!");
+                    break;
+            }
+
+            return default;
         }
 
         private static IEnumerable<ISentenceElement> GetSubstringFromFile(string path)

@@ -175,7 +175,7 @@ namespace TextHandler.Parsers
 
         private void ReadNext()
         {
-            while (true)
+            while (_textReader.Peek() != -1)
             {
                 if (_textReader.Peek() == -1)
                 {

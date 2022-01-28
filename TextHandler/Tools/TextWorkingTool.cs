@@ -33,12 +33,10 @@ namespace TextHandler.Tools
             return text.Value
                 .OfType<ISentence>()
                 .Where(s => (s.Value.Last() as IPunctuationMark)?.Value == '?')
-                .Select(s => s.Value
+                .SelectMany(s => s.Value
                     .OfType<IWord>()
                     .Where(e => e.Value.Count() == wordLength)
-                    .Distinct())
-                .Aggregate((currentSentence, nextSentence) => currentSentence
-                    .Union(nextSentence));
+                    .Distinct());
         }
 
         public static IText RemoveWordsThatStartsWithConsonantLetter(IText text, int wordLength)
