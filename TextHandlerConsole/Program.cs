@@ -101,6 +101,8 @@ namespace TextHandlerConsole
             try
             {
                 using var streamWriter = new StreamWriter(pathToTextWorkingToolFile);
+                var pathToInputFile = GetValueFromConfig("inputFilePath");
+                textObject = HandleReadInputFile(pathToInputFile);
 
                 switch (toolOption)
                 {
