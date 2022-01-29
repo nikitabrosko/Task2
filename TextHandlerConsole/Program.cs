@@ -189,7 +189,7 @@ namespace TextHandlerConsole
 
             if (textObject.Value.Count() != 1)
             {
-                throw new ArgumentException("incorrect path! File contains more or less sentences, than 1");
+                throw new ArgumentException("Incorrect path! File contains more or less sentences, than 1");
             }
 
             return textObject.Value.OfType<ISentence>().Single().Value;

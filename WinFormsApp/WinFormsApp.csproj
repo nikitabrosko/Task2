@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TextHandler\TextHandler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ToolsForms\ToolSecond - Copy %282%29.Designer.cs">
+      <DependentUpon>ToolSecond.Designer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ToolsForms\ToolSecond - Copy - Copy.Designer.cs">
+      <DependentUpon>ToolSecond - Copy.Designer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ToolsForms\ToolFourth.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ToolsForms\ToolThird - Copy.Designer.cs">
+      <DependentUpon>ToolThird.Designer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ToolsForms\ToolThird.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ToolsForms\ToolSecond - Copy.Designer.cs">
+      <DependentUpon>ToolSecond.Designer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WritePathToToolsFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="WritePathToOutputFile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ToolsForms\ToolSecond - Copy %282%29.resx">
+      <DependentUpon>ToolSecond.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ToolsForms\ToolSecond - Copy - Copy.resx">
+      <DependentUpon>ToolSecond - Copy.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ToolsForms\ToolSecond - Copy.resx">
+      <DependentUpon>ToolSecond.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ToolsForms\ToolThird - Copy.resx">
+      <DependentUpon>ToolThird.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WritePathToInputFile - Copy %282%29.resx">
+      <DependentUpon>WritePathToInputFile.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WritePathToInputFile - Copy - Copy.resx">
+      <DependentUpon>WritePathToInputFile - Copy.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WritePathToInputFile - Copy.resx">
+      <DependentUpon>WritePathToInputFile.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
